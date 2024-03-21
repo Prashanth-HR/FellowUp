@@ -19,6 +19,8 @@ const openaiRoutes = require('./routes/openai');
 
 const usersRoutes = require('./routes/users');
 
+const startupsRoutes = require('./routes/startups');
+
 const rolesRoutes = require('./routes/roles');
 
 const permissionsRoutes = require('./routes/permissions');
@@ -85,6 +87,12 @@ app.use(
   '/api/users',
   passport.authenticate('jwt', { session: false }),
   usersRoutes,
+);
+
+app.use(
+  '/api/startups',
+  passport.authenticate('jwt', { session: false }),
+  startupsRoutes,
 );
 
 app.use(
