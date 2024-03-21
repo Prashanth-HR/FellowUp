@@ -93,7 +93,7 @@ function Login(props) {
       <div className={classes.logotypeContainer}>
         <img src={logo} alt='logo' className={classes.logotypeImage} />
         <Typography className={classes.logotypeText}>
-          React Material Admin Full
+          FellowUp
         </Typography>
       </div>
       <div
@@ -159,7 +159,7 @@ function Login(props) {
               </Tabs>
               {activeTabId === 0 && (
                 <React.Fragment>
-                  {config.isBackend ? (
+                  {/* {config.isBackend ? (
                     <Widget
                       disableWidgetMenu
                       inheritHeight
@@ -177,7 +177,7 @@ function Login(props) {
                         to login!
                       </Typography>
                     </Widget>
-                  ) : null}
+                  ) : null} */}
                   <Typography variant='h1' className={classes.greeting}>
                     {getGreeting()}, User
                   </Typography>
@@ -202,14 +202,14 @@ function Login(props) {
                       className={classes.googleIcon}
                     />
                     &nbsp;Sign in with Google
-                  </Button>
+                  </Button> 
                   <div className={classes.formDividerContainer}>
                     <div className={classes.formDivider} />
                     <Typography className={classes.formDividerWord}>
                       or
                     </Typography>
                     <div className={classes.formDivider} />
-                  </div>
+                  </div> 
                   <Grow
                     in={error}
                     style={
@@ -414,7 +414,7 @@ function Login(props) {
             </>
           )}
         </div>
-        <Typography color='primary' className={classes.copyright}>
+        {/* <Typography color='primary' className={classes.copyright}>
           2014-{new Date().getFullYear()}{' '}
           <a
             style={{ textDecoration: 'none', color: 'inherit' }}
@@ -425,7 +425,7 @@ function Login(props) {
             Flatlogic
           </a>
           , LLC. All rights reserved.
-        </Typography>
+        </Typography> */}
       </div>
     </Grid>
   );
