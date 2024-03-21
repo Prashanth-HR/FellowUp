@@ -21,19 +21,22 @@ const Dashboard = () => {
   const [users, setUsers] = useState(0);
   const [roles, setRoles] = useState(0);
   const [permissions, setPermissions] = useState(0);
+  const [startups, setStartups] = useState(0);
 
   const [currentUser, setCurrentUser] = useState(null);
 
   async function loadData() {
-    const fns = [setUsers, setRoles, setPermissions];
+    const fns = [setUsers, setRoles, setPermissions, setStartups];
 
     const responseUsers = axios.get(`/users/count`);
     const responseRoles = axios.get(`/roles/count`);
     const responsePermissions = axios.get(`/permissions/count`);
+    const responseStartups = axios.get(`/startups/count`);
     Promise.allSettled([
       responseUsers,
       responseRoles,
       responsePermissions,
+      responseStartups,
     ]).then((res) =>
       res.forEach((el, i) => {
         if (el.status === 'fulfilled') {
@@ -127,6 +130,27 @@ const Dashboard = () => {
                     <span className={classes.widgetTextCount}>
                       {permissions}
                     </span>
+                  </p>
+                </div>
+              </Widget>
+            </Link>
+          </Grid>
+        )}
+
+        {hasPermission(currentUser, 'READ_STARTUPS') && (
+          <Grid item xs={12} sm={6} lg={4} xl={3}>
+            <Link to={'/admin/startups'} style={{ textDecoration: 'none' }}>
+              <Widget title={'Startups'}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <InfoIcon color='primary' sx={{ mr: 1 }} />
+                  <p className={classes.widgetText}>
+                    Startups:{' '}
+                    <span className={classes.widgetTextCount}>{startups}</span>
                   </p>
                 </div>
               </Widget>

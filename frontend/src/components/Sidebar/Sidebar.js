@@ -156,6 +156,17 @@ function Sidebar({ location, structure }) {
           />
         )}
 
+        {hasPermission(currentUser, 'READ_STARTUPS') && (
+          <SidebarLink
+            label='Startups'
+            link='/admin/startups'
+            location={location}
+            isSidebarOpened={isSidebarOpenedWrapper}
+            icon={<CoreIcon />}
+            toggleDrawer={toggleDrawer(true)}
+          />
+        )}
+
         {hasPermission(currentUser, 'READ_API_DOCS') && (
           <SidebarLink
             label='API docs'

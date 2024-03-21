@@ -8,6 +8,8 @@ import roles from 'reducers/roles/rolesReducers';
 
 import permissions from 'reducers/permissions/permissionsReducers';
 
+import startups from 'reducers/startups/startupsReducers';
+
 export default (history) =>
   combineReducers({
     router: connectRouter(history),
@@ -18,4 +20,6 @@ export default (history) =>
     roles,
 
     permissions,
+
+    startups,
   });

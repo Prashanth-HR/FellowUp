@@ -40,6 +40,10 @@ import PermissionsFormPage from 'pages/CRUD/Permissions/form/PermissionsFormPage
 import PermissionsFormPageView from 'pages/CRUD/Permissions/form/PermissionsFormPageView';
 import PermissionsTablePage from 'pages/CRUD/Permissions/table/PermissionsTablePage';
 
+import StartupsFormPage from 'pages/CRUD/Startups/form/StartupsFormPage';
+import StartupsFormPageView from 'pages/CRUD/Startups/form/StartupsFormPageView';
+import StartupsTablePage from 'pages/CRUD/Startups/table/StartupsTablePage';
+
 const Redirect = (props) => {
   useEffect(() => window.location.replace(props.url));
   return <span>Redirecting...</span>;
@@ -132,6 +136,23 @@ function Layout(props) {
             path={'/admin/permissions/:id/show'}
             exact
             component={PermissionsFormPageView}
+          />
+
+          <Route path={'/admin/startups'} exact component={StartupsTablePage} />
+          <Route
+            path={'/admin/startups/new'}
+            exact
+            component={StartupsFormPage}
+          />
+          <Route
+            path={'/admin/startups/:id/edit'}
+            exact
+            component={StartupsFormPage}
+          />
+          <Route
+            path={'/admin/startups/:id/show'}
+            exact
+            component={StartupsFormPageView}
           />
         </Switch>
         <Fab
