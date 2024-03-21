@@ -9,7 +9,7 @@ import SwitchFormItem from 'components/FormItems/items/SwitchFormItem';
 import RadioFormItem from 'components/FormItems/items/RadioFormItem';
 import ImagesFormItem from 'components/FormItems/items/ImagesFormItem';
 
-import usersFields from 'pages/CRUD/Users/helpers/usersFields';
+import startupsFields from 'pages/CRUD/Startups/helpers/startupsFields';
 import IniValues from 'components/FormItems/iniValues';
 import PreparedValues from 'components/FormItems/preparedValues';
 import FormValidations from 'components/FormItems/formValidations';
@@ -26,15 +26,15 @@ const StartupsForm = (props) => {
   } = props;
 
   const iniValues = () => {
-    return IniValues(usersFields, record || {});
+    return IniValues(startupsFields, record || {});
   };
 
   const formValidations = () => {
-    return FormValidations(usersFields, record || {});
+    return FormValidations(startupsFields, record || {});
   };
 
   const handleSubmit = (values) => {
-    const { id, ...data } = PreparedValues(usersFields, values || {});
+    const { id, ...data } = PreparedValues(startupsFields, values || {});
     onSubmit(id, data);
   };
 
@@ -43,7 +43,7 @@ const StartupsForm = (props) => {
       return 'Edit My Profile';
     }
 
-    return isEditing ? 'Edit Users' : 'Add Users';
+    return isEditing ? 'Edit Startup' : 'Add Startup';
   };
 
   const renderForm = () => (
@@ -58,48 +58,37 @@ const StartupsForm = (props) => {
             <Grid container spacing={3} direction='column'>
               <Grid item>
                 <InputFormItem
-                  name={'firstName'}
-                  schema={usersFields}
+                  name={'startupName'}
+                  schema={startupsFields}
                   autoFocus
                 />
               </Grid>
 
               <Grid item>
-                <InputFormItem name={'lastName'} schema={usersFields} />
+                <InputFormItem name={'contactPerson'} schema={startupsFields} />
               </Grid>
 
               <Grid item>
-                <InputFormItem name={'phoneNumber'} schema={usersFields} />
+                <InputFormItem name={'phoneNumber'} schema={startupsFields} />
               </Grid>
 
               <Grid item>
-                <InputFormItem name={'email'} schema={usersFields} />
+                <InputFormItem name={'email'} schema={startupsFields} />
               </Grid>
 
-              <Grid item>
-                <RadioFormItem name={'role'} schema={usersFields} />
-              </Grid>
-
-              <Grid item>
-                <SwitchFormItem name={'disabled'} schema={usersFields} />
-              </Grid>
-
-              <Grid item>
+              {/* <Grid item>
                 <ImagesFormItem
                   name={'avatar'}
-                  schema={usersFields}
-                  path={'users/avatar'}
+                  schema={startupsFields}
+                  path={'startups/avatar'}
                   fileProps={{
                     size: undefined,
                     formats: undefined,
                   }}
                   max={undefined}
                 />
-              </Grid>
+              </Grid> */}
 
-              <Grid item>
-                <InputFormItem name={'password'} schema={usersFields} />
-              </Grid>
             </Grid>
             <Grid container spacing={3} mt={2}>
               <Grid item>

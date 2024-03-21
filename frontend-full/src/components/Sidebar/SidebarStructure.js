@@ -28,7 +28,7 @@ const structure = [
   { id: 100, label: 'Profile', link: '/app/profile', icon: <ProfileIcon /> },
   { id: 0, label: 'Dashboard', link: '/app/dashboard', icon: <HomeIcon /> },
   {
-    id: 30, label: 'StartUps', link: '/app/startup',
+    id: 30, label: 'StartUps', link: '/app/startups',
     badgeColor: 'secondary',
     icon: <PersonIcon />,
     children: [
@@ -38,11 +38,11 @@ const structure = [
       },
       {
         label: 'Startup Apply',
-        link: '/app/startup/new',
+        link: '/app/startups/new',
       },
       {
         label: 'Startup Edit',
-        link: '/app/startup/edit',
+        link: '/app/startups/edit',
       },
     ],
   },

@@ -179,7 +179,6 @@ function Layout(props) {
           <Route path="/app/ecommerce/product" component={Product} />
           <Route path="/app/ecommerce/gridproducts" component={ProductsGrid}/>
 
-          />
 
           <Route path={'/app/users'} exact component={UsersTablePage} />
           <Route path={'/app/user/new'} exact component={UsersFormPage} />
@@ -190,9 +189,9 @@ function Layout(props) {
           />
 
 <Route path={'/app/startups'} exact component={StartupsTablePage} />
-          <Route path={'/app/startup/new'} exact component={StartupsFormPage} />
+          <Route path={'/app/startups/new'} exact component={StartupsFormPage} />
           <Route
-            path={'/app/startup/:id/edit'}
+            path={'/app/startups/:id/edit'}
             exact
             component={StartupsFormPage}
           />

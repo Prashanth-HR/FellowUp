@@ -23,6 +23,8 @@ const rolesRoutes = require('./routes/roles');
 
 const permissionsRoutes = require('./routes/permissions');
 
+const startupsRoutes = require('./routes/startups');
+
 const options = {
   definition: {
     openapi: '3.0.0',
@@ -97,6 +99,12 @@ app.use(
   '/api/permissions',
   passport.authenticate('jwt', { session: false }),
   permissionsRoutes,
+);
+
+app.use(
+  '/api/startups',
+  passport.authenticate('jwt', { session: false }),
+  startupsRoutes,
 );
 
 app.use(
