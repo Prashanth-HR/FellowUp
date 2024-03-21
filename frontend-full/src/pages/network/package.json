@@ -1,0 +1,6 @@
+{
+  "name": "callNetwork",
+  "version": "1.0.0",
+  "main": "callNetwork.js",
+  "license": "MIT"
+}

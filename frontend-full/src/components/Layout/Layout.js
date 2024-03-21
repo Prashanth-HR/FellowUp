@@ -81,6 +81,10 @@ import structure from '../Sidebar/SidebarStructure'
 import StartupsFormPage from '../../pages/CRUD/Startups/form/StartupsFormPage';
 import StartupsTablePage from '../../pages/CRUD/Startups/table/StartupsTablePage';
 
+//network Pages
+import MatchNetwork from '../../pages/network/MatchNetwork';
+import ConnectNetwork from '../../pages/network/ConnectNetwork';
+
 const Redirect = (props) => {
   useEffect(() => window.location.replace(props.url));
   return <span>Redirecting...</span>;
@@ -179,7 +183,7 @@ function Layout(props) {
           <Route path="/app/ecommerce/product" component={Product} />
           <Route path="/app/ecommerce/gridproducts" component={ProductsGrid}/>
 
-          />
+          
 
           <Route path={'/app/users'} exact component={UsersTablePage} />
           <Route path={'/app/user/new'} exact component={UsersFormPage} />
@@ -189,13 +193,16 @@ function Layout(props) {
             component={UsersFormPage}
           />
 
-<Route path={'/app/startups'} exact component={StartupsTablePage} />
+          <Route path={'/app/startups'} exact component={StartupsTablePage} />
           <Route path={'/app/startup/new'} exact component={StartupsFormPage} />
           <Route
             path={'/app/startup/:id/edit'}
             exact
             component={StartupsFormPage}
           />
+
+          <Route path={'/app/network/match'} component={MatchNetwork} />
+          <Route path={'/app/network/connect'} component={ConnectNetwork} />
         </Switch>
         <Fab
           color='primary'

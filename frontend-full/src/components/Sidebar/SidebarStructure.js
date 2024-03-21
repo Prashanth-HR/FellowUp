@@ -18,6 +18,7 @@ import {
   Person as PersonIcon,
   AccountCircle as ProfileIcon
 } from '@mui/icons-material';
+import HubIcon from '@mui/icons-material/Hub';
 import ChatIcon from '@mui/icons-material/Chat';
 import ViewCompactRoundedIcon from '@mui/icons-material/ViewCompactRounded';
 
@@ -43,6 +44,21 @@ const structure = [
       {
         label: 'Startup Edit',
         link: '/app/startup/edit',
+      },
+    ],
+  },
+  {
+    id: 40, label: 'Network', link: '/app/network/connect',
+    badgeColor: 'secondary',
+    icon: <HubIcon />,
+    children: [
+      {
+        label: 'Match',
+        link: '/app/network/match',
+      },
+      {
+        label: 'Connect',
+        link: '/app/network/connect',
       },
     ],
   },

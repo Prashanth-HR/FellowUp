@@ -60,7 +60,7 @@ function Reset(props) {
       <div className={classes.logotypeContainer}>
         <img src={logo} alt='logo' className={classes.logotypeImage} />
         <Typography className={classes.logotypeText}>
-          React Material Admin Full
+          FellowUp
         </Typography>
       </div>
       <div className={classes.customFormContainer}>
