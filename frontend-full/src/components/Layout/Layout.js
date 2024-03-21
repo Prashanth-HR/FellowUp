@@ -23,6 +23,7 @@ import EditUser from '../../pages/user/EditUser';
 
 // pages
 import Dashboard from '../../pages/dashboard';
+import Startups from '../../pages/startups';
 import Profile from '../../pages/profile'
 import TypographyPage from '../../pages/typography'
 import ColorsPage from '../../pages/colors'
@@ -110,6 +111,7 @@ function Layout(props) {
         <BreadCrumbs />
         <Switch>
           <Route path='/app/dashboard' component={Dashboard} />
+          <Route path='/app/startups' component={Startups} />
           <Route path="/app/profile" component={Profile} />
           <Route path='/app/user/edit' component={EditUser} />
 
