@@ -81,6 +81,10 @@ import structure from '../Sidebar/SidebarStructure'
 import StartupsFormPage from '../../pages/CRUD/Startups/form/StartupsFormPage';
 import StartupsTablePage from '../../pages/CRUD/Startups/table/StartupsTablePage';
 
+//network
+import MatchNetwork from '../../pages/network/MatchNetwork';
+import ConnectNetwork from '../../pages/network/ConnectNetwork';
+
 const Redirect = (props) => {
   useEffect(() => window.location.replace(props.url));
   return <span>Redirecting...</span>;
@@ -195,6 +199,8 @@ function Layout(props) {
             exact
             component={StartupsFormPage}
           />
+          <Route path={'/app/network/match'} exact component={MatchNetwork} />
+          <Route path={'/app/network/connect'} exact component={ConnectNetwork} />
         </Switch>
         <Fab
           color='primary'
