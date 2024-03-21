@@ -81,6 +81,10 @@ import structure from '../Sidebar/SidebarStructure'
 import StartupsFormPage from '../../pages/CRUD/Startups/form/StartupsFormPage';
 import StartupsTablePage from '../../pages/CRUD/Startups/table/StartupsTablePage';
 
+//network
+import MatchNetwork from '../../pages/network/MatchNetwork';
+import ConnectNetwork from '../../pages/network/ConnectNetwork';
+
 const Redirect = (props) => {
   useEffect(() => window.location.replace(props.url));
   return <span>Redirecting...</span>;
@@ -102,7 +106,7 @@ function Layout(props) {
   return (
     <div className={classes.root}>
       <Header history={props.history} />
-      <Sidebar structure={structure}/>
+      <Sidebar structure={structure} />
       <div
         className={classnames(classes.content, {
           [classes.contentShift]: layoutState.isSidebarOpened,
@@ -153,7 +157,7 @@ function Layout(props) {
           <Route path="/app/maps/google" component={MapsGoogle} />
           <Route path="/app/maps/vector" component={VectorMaps} />
 
-          <Route exact path="/app/extra" render={() => <Redirect to="/app/extra/timeline" />}/>
+          <Route exact path="/app/extra" render={() => <Redirect to="/app/extra/timeline" />} />
           <Route path="/app/extra/timeline" component={Timeline} />
           <Route path="/app/extra/search" component={Search} />
           <Route path="/app/extra/gallery" component={Gallery} />
@@ -175,9 +179,9 @@ function Layout(props) {
               <CreateProduct />
             </ProductsProvider>
           </Route>
-          <Route path="/app/ecommerce/product/:id" component={Product}/>
+          <Route path="/app/ecommerce/product/:id" component={Product} />
           <Route path="/app/ecommerce/product" component={Product} />
-          <Route path="/app/ecommerce/gridproducts" component={ProductsGrid}/>
+          <Route path="/app/ecommerce/gridproducts" component={ProductsGrid} />
 
 
           <Route path={'/app/users'} exact component={UsersTablePage} />
@@ -188,13 +192,15 @@ function Layout(props) {
             component={UsersFormPage}
           />
 
-<Route path={'/app/startups'} exact component={StartupsTablePage} />
+          <Route path={'/app/startups'} exact component={StartupsTablePage} />
           <Route path={'/app/startups/new'} exact component={StartupsFormPage} />
           <Route
             path={'/app/startups/:id/edit'}
             exact
             component={StartupsFormPage}
           />
+          <Route path={'/app/network/match'} exact component={MatchNetwork} />
+          <Route path={'/app/network/connect'} exact component={ConnectNetwork} />
         </Switch>
         <Fab
           color='primary'

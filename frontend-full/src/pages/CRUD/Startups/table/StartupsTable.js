@@ -245,7 +245,7 @@ const StartupsTable = () => {
 
   return (
     <div>
-      <Widget title='Users' disableWidgetMenu>
+      <Widget title='StartUps' disableWidgetMenu>
         <Box className={classes.actions}>
           <Link to='/app/startups/new'>
             <Button variant='contained'>New</Button>
