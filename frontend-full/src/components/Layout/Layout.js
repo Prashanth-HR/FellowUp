@@ -78,6 +78,8 @@ import UsersTablePage from 'pages/CRUD/Users/table/UsersTablePage';
 
 //Sidebar structure
 import structure from '../Sidebar/SidebarStructure'
+import StartupsFormPage from '../../pages/CRUD/Startups/form/StartupsFormPage';
+import StartupsTablePage from '../../pages/CRUD/Startups/table/StartupsTablePage';
 
 const Redirect = (props) => {
   useEffect(() => window.location.replace(props.url));
@@ -185,6 +187,14 @@ function Layout(props) {
             path={'/app/users/:id/edit'}
             exact
             component={UsersFormPage}
+          />
+
+<Route path={'/app/startups'} exact component={StartupsTablePage} />
+          <Route path={'/app/startup/new'} exact component={StartupsFormPage} />
+          <Route
+            path={'/app/startup/:id/edit'}
+            exact
+            component={StartupsFormPage}
           />
         </Switch>
         <Fab

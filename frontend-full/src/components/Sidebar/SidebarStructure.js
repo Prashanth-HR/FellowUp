@@ -28,6 +28,25 @@ const structure = [
   { id: 100, label: 'Profile', link: '/app/profile', icon: <ProfileIcon /> },
   { id: 0, label: 'Dashboard', link: '/app/dashboard', icon: <HomeIcon /> },
   {
+    id: 30, label: 'StartUps', link: '/app/startup',
+    badgeColor: 'secondary',
+    icon: <PersonIcon />,
+    children: [
+      {
+        label: 'Startup List',
+        link: '/app/startups',
+      },
+      {
+        label: 'Startup Apply',
+        link: '/app/startup/new',
+      },
+      {
+        label: 'Startup Edit',
+        link: '/app/startup/edit',
+      },
+    ],
+  },
+  {
     id: 1,
     label: 'E-commerce',
     badge: 'NodeJS',
@@ -105,7 +124,8 @@ const structure = [
     link: '/app/tables',
     icon: <TableIcon />,
     children: [
-      {   label: 'Tables Basic',
+      {
+        label: 'Tables Basic',
         link: '/app/tables/static'
       },
       {
@@ -185,7 +205,7 @@ const structure = [
       { label: 'Invoice', link: '/app/extra/invoice' },
       {
         label: 'Login Page',
-        click: function(...rest) {
+        click: function (...rest) {
           const name = 'onLogin'
           rest.forEach(c => {
             if (c.clickName === name) {
@@ -254,7 +274,7 @@ const structure = [
     id: 25,
     label: 'Add section',
     icon: <AddSectionIcon />,
-    click: function(event, ...rest) {
+    click: function (event, ...rest) {
       const name = 'addSectionClick'
       rest.forEach(c => {
         if (c.clickName === name) {
@@ -271,7 +291,7 @@ const structure = [
     id: 29,
     label: 'Chat',
     icon: <ChatIcon />,
-    click: function(event, ...rest) {
+    click: function (event, ...rest) {
       const name = 'chatSetOpen'
       rest.forEach(c => {
         if (c.clickName === name) {
