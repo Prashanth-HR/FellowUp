@@ -93,7 +93,7 @@ function Login(props) {
       <div className={classes.logotypeContainer}>
         <img src={logo} alt='logo' className={classes.logotypeImage} />
         <Typography className={classes.logotypeText}>
-          FellowUp
+          React Material Admin Full
         </Typography>
       </div>
       <div

@@ -82,7 +82,7 @@ const Header = (props) => {
           )}
         </IconButton>
         <Typography variant='h6' block className={classes.logo}>
-          FellowUp{' '}
+          React Material Admin Full{' '}
           <Typography variant={'h5'}>&nbsp; Documentation</Typography>
         </Typography>
         <Box

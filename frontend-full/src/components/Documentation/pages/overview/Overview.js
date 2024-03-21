@@ -26,10 +26,10 @@ const Overview = () => {
         <Grid item xs={12}>
           <Widget disableWidgetMenu>
             <Typography variant={"h6"}>
-              FellowUp is an admin dashboard template built
+              React Material Admin Full is an admin dashboard template built
               with React 16.8.6. Sing App goes beyond usual admin templates and
               provides you entire intuitive programming framework. You can use
-              FellowUp to build any type of web applications
+              React Material Admin Full to build any type of web applications
               like SAAS, CMS, financial dashboards, project management tools,
               etc.
             </Typography>
