@@ -1,5 +1,5 @@
 import React from 'react';
-import StartupsTable from './StartupsTable';
+import StartupsTable from 'pages/CRUD/Startups/table//StartupsTable';
 
 const StartupsTablePage = () => {
   return (

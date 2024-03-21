@@ -6,51 +6,24 @@ const axios = require('axios');
 const config = require('../config');
 const stream = require('stream');
 
-const InvitationEmail = require('./email/list/invitation');
-const ValidationError = require('./notifications/errors/validation');
-const EmailSender = require('./email');
-const AuthService = require('./auth');
-
 module.exports = class StartupsService {
-  static async create(data, currentUser, sendInvitationEmails = true, host) {
-    let transaction = await db.sequelize.transaction();
-
-    let email = data.email;
-    let emailsToInvite = [];
+  static async create(data, currentUser) {
+    const transaction = await db.sequelize.transaction();
     try {
-      if (email) {
-        let user = await StartupsDBApi.findBy({ email }, { transaction });
-        if (user) {
-          throw new ValidationError('iam.errors.startupAlreadyExists');
-        } else {
-          await StartupsDBApi.create(
-            { data },
+      await StartupsDBApi.create(data, {
+        currentUser,
+        transaction,
+      });
 
-            {
-              currentUser,
-              transaction,
-            },
-          );
-          emailsToInvite.push(email);
-        }
-      } else {
-        throw new ValidationError('iam.errors.emailRequired');
-      }
       await transaction.commit();
     } catch (error) {
       await transaction.rollback();
       throw error;
     }
-    if (emailsToInvite && emailsToInvite.length) {
-      if (!sendInvitationEmails) return;
-
-      AuthService.sendPasswordResetEmail(email, 'invitation', host);
-    }
   }
 
   static async bulkImport(req, res, sendInvitationEmails = true, host) {
     const transaction = await db.sequelize.transaction();
-    let emailsToInvite = [];
 
     try {
       await processFile(req, res);
@@ -63,18 +36,12 @@ module.exports = class StartupsService {
         bufferStream
           .pipe(csv())
           .on('data', (data) => results.push(data))
-          .on('end', () => {
-            console.log('results csv', results);
+          .on('end', async () => {
+            console.log('CSV results', results);
             resolve();
           })
           .on('error', (error) => reject(error));
       });
-
-      const hasAllEmails = results.every((result) => result.email);
-
-      if (!hasAllEmails) {
-        throw new ValidationError('importer.errors.userEmailMissing');
-      }
 
       await StartupsDBApi.bulkImport(results, {
         transaction,
@@ -83,43 +50,29 @@ module.exports = class StartupsService {
         currentUser: req.currentUser,
       });
 
-      emailsToInvite = results.map((result) => result.email);
-
       await transaction.commit();
     } catch (error) {
       await transaction.rollback();
       throw error;
     }
-
-    if (emailsToInvite && emailsToInvite.length && !sendInvitationEmails) {
-      emailsToInvite.forEach((email) => {
-        AuthService.sendPasswordResetEmail(email, 'invitation', host);
-      });
-    }
   }
 
   static async update(data, id, currentUser) {
     const transaction = await db.sequelize.transaction();
-
     try {
-      let users = await StartupsDBApi.findBy({ id }, { transaction });
+      let startups = await StartupsDBApi.findBy({ id }, { transaction });
 
-      if (!users) {
-        throw new ValidationError('iam.errors.startupNotFound');
+      if (!startups) {
+        throw new ValidationError('startupsNotFound');
       }
 
-      await StartupsDBApi.update(
-        id,
-        data,
-
-        {
-          currentUser,
-          transaction,
-        },
-      );
+      await StartupsDBApi.update(id, data, {
+        currentUser,
+        transaction,
+      });
 
       await transaction.commit();
-      return users;
+      return startups;
     } catch (error) {
       await transaction.rollback();
       throw error;
@@ -130,10 +83,6 @@ module.exports = class StartupsService {
     const transaction = await db.sequelize.transaction();
 
     try {
-      if (currentUser.id === id) {
-        throw new ValidationError('iam.errors.deletingHimself');
-      }
-
       if (currentUser.app_role?.name !== config.roles.admin) {
         throw new ValidationError('errors.forbidden.message');
       }

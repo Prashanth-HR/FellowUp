@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import UsersForm from 'pages/CRUD/Users/form/UsersForm';
+import StartupsForm from 'pages/CRUD/Startups/form/StartupsForm';
 import { push } from 'connected-react-router';
-import actions from 'actions/users/usersFormActions';
+import actions from 'actions/startups/startupsFormActions';
 import { connect } from 'react-redux';
 
 const StartupsFormPage = (props) => {
@@ -31,7 +31,7 @@ const StartupsFormPage = (props) => {
       dispatch(actions.doFind(match.params.id));
     } else {
       if (isProfile()) {
-        const currentUser = JSON.parse(localStorage.getItem('user'));
+        const currentUser = JSON.parse(localStorage.getItem('startups'));
         const currentUserId = currentUser.user.id;
         dispatch(actions.doFind(currentUserId));
       } else {
@@ -45,7 +45,7 @@ const StartupsFormPage = (props) => {
   return (
     <>
       {dispatched && (
-        <UsersForm
+        <StartupsForm
           saveLoading={saveLoading}
           findLoading={findLoading}
           currentUser={currentUser}
@@ -53,7 +53,7 @@ const StartupsFormPage = (props) => {
           isEditing={isEditing()}
           isProfile={isProfile()}
           onSubmit={doSubmit}
-          onCancel={() => dispatch(push('/app/users'))}
+          onCancel={() => dispatch(push('/app/startups'))}
         />
       )}
     </>

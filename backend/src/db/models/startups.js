@@ -21,7 +21,6 @@ module.exports = function (sequelize, DataTypes) {
       contactPerson: {
         type: DataTypes.TEXT,
       },
-      
 
       phoneNumber: {
         type: DataTypes.TEXT,
@@ -31,7 +30,6 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.TEXT,
       },
 
-      
       importHash: {
         type: DataTypes.STRING(255),
         allowNull: true,
@@ -45,24 +43,19 @@ module.exports = function (sequelize, DataTypes) {
     },
   );
 
-  startups.beforeCreate((startups, options) => {
-    startups = trimStringFields(startups);
+  startups.associate = (db) => {
+    /// loop through entities and it's fields, and if ref === current e[name] and create relation has many on parent entity
 
-  });
+    //end loop
 
-  startups.beforeUpdate((startups, options) => {
-    startups = trimStringFields(startups);
-  });
+    db.startups.belongsTo(db.users, {
+      as: 'createdBy',
+    });
+
+    db.startups.belongsTo(db.users, {
+      as: 'updatedBy',
+    });
+  };
 
   return startups;
 };
-
-function trimStringFields(startups) {
-  startups.email = startups.email.trim();
-
-  startups.startupName = startups.startupName ? startups.startupName.trim() : null;
-
-  startups.contactPerson = startups.contactPerson ? startups.contactPerson.trim() : null;
-
-  return startups;
-}

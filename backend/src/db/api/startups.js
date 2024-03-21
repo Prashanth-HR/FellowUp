@@ -3,9 +3,6 @@ const FileDBApi = require('./file');
 const crypto = require('crypto');
 const Utils = require('../utils');
 
-const bcrypt = require('bcrypt');
-const config = require('../../config');
-
 const Sequelize = db.Sequelize;
 const Op = Sequelize.Op;
 
@@ -16,13 +13,15 @@ module.exports = class StartupsDBApi {
 
     const startups = await db.startups.create(
       {
-        id: data.data.id || undefined,
+        id: data.id || undefined,
 
-        startupName: data.data.startupName || null,
-        contactPerson: data.data.contactPerson || null,
-        phoneNumber: data.data.phoneNumber || null,
-        email: data.data.email || null,
-
+        startupName: data.startupName || null,
+        contactPerson: data.contactPerson || null,
+        phoneNumber: data.phoneNumber || null,
+        email: data.email || null,
+        importHash: data.importHash || null,
+        createdById: currentUser.id,
+        updatedById: currentUser.id,
       },
       { transaction },
     );
@@ -42,13 +41,20 @@ module.exports = class StartupsDBApi {
       contactPerson: item.contactPerson || null,
       phoneNumber: item.phoneNumber || null,
       email: item.email || null,
-
+      importHash: item.importHash || null,
+      createdById: currentUser.id,
+      updatedById: currentUser.id,
+      createdAt: new Date(Date.now() + index * 1000),
     }));
 
     // Bulk create items
-    const startups = await db.startups.bulkCreate(startupsData, { transaction });
+    const startups = await db.startups.bulkCreate(startupsData, {
+      transaction,
+    });
 
-    return users;
+    // For each item created, replace relation files
+
+    return startups;
   }
 
   static async update(id, data, options) {
@@ -57,18 +63,18 @@ module.exports = class StartupsDBApi {
 
     const startups = await db.startups.findByPk(id, {}, { transaction });
 
-    await users.update(
+    await startups.update(
       {
         startupName: data.startupName || null,
         contactPerson: data.contactPerson || null,
         phoneNumber: data.phoneNumber || null,
         email: data.email || null,
-
+        updatedById: currentUser.id,
       },
       { transaction },
     );
 
-    return users;
+    return startups;
   }
 
   static async remove(id, options) {
@@ -76,6 +82,15 @@ module.exports = class StartupsDBApi {
     const transaction = (options && options.transaction) || undefined;
 
     const startups = await db.startups.findByPk(id, options);
+
+    await startups.update(
+      {
+        deletedBy: currentUser.id,
+      },
+      {
+        transaction,
+      },
+    );
 
     await startups.destroy({
       transaction,
@@ -95,7 +110,6 @@ module.exports = class StartupsDBApi {
 
     const output = startups.get({ plain: true });
 
-
     return output;
   }
 
@@ -110,12 +124,7 @@ module.exports = class StartupsDBApi {
 
     const transaction = (options && options.transaction) || undefined;
     let where = {};
-    let include = [
-      {
-        model: db.startups,
-      },
-
-    ];
+    let include = [];
 
     if (filter) {
       if (filter.id) {
@@ -135,7 +144,11 @@ module.exports = class StartupsDBApi {
       if (filter.contactPerson) {
         where = {
           ...where,
-          [Op.and]: Utils.ilike('startups', 'contactPerson', filter.contactPerson),
+          [Op.and]: Utils.ilike(
+            'startups',
+            'contactPerson',
+            filter.contactPerson,
+          ),
         };
       }
 
@@ -153,12 +166,60 @@ module.exports = class StartupsDBApi {
         };
       }
 
+      if (
+        filter.active === true ||
+        filter.active === 'true' ||
+        filter.active === false ||
+        filter.active === 'false'
+      ) {
+        where = {
+          ...where,
+          active: filter.active === true || filter.active === 'true',
+        };
+      }
+
+      if (filter.createdAtRange) {
+        const [start, end] = filter.createdAtRange;
+
+        if (start !== undefined && start !== null && start !== '') {
+          where = {
+            ...where,
+            ['createdAt']: {
+              ...where.createdAt,
+              [Op.gte]: start,
+            },
+          };
+        }
+
+        if (end !== undefined && end !== null && end !== '') {
+          where = {
+            ...where,
+            ['createdAt']: {
+              ...where.createdAt,
+              [Op.lte]: end,
+            },
+          };
+        }
+      }
     }
 
     let { rows, count } = options?.countOnly
       ? {
-        rows: [],
-        count: await db.startups.count({
+          rows: [],
+          count: await db.startups.count({
+            where,
+            include,
+            distinct: true,
+            limit: limit ? Number(limit) : undefined,
+            offset: offset ? Number(offset) : undefined,
+            order:
+              filter.field && filter.sort
+                ? [[filter.field, filter.sort]]
+                : [['createdAt', 'desc']],
+            transaction,
+          }),
+        }
+      : await db.startups.findAndCountAll({
           where,
           include,
           distinct: true,
@@ -167,22 +228,9 @@ module.exports = class StartupsDBApi {
           order:
             filter.field && filter.sort
               ? [[filter.field, filter.sort]]
-              : [['desc']],
+              : [['createdAt', 'desc']],
           transaction,
-        }),
-      }
-      : await db.startups.findAndCountAll({
-        where,
-        include,
-        distinct: true,
-        limit: limit ? Number(limit) : undefined,
-        offset: offset ? Number(offset) : undefined,
-        order:
-          filter.field && filter.sort
-            ? [[filter.field, filter.sort]]
-            : [['desc']],
-        transaction,
-      });
+        });
 
     //    rows = await this._fillWithRelationsAndFilesForRows(
     //      rows,
@@ -199,43 +247,21 @@ module.exports = class StartupsDBApi {
       where = {
         [Op.or]: [
           { ['id']: Utils.uuid(query) },
-          Utils.ilike('startups', 'startupName', query),
+          Utils.ilike('startups', 'id', query),
         ],
       };
     }
 
     const records = await db.startups.findAll({
-      attributes: ['id', 'startupName'],
+      attributes: ['id', 'id'],
       where,
       limit: limit ? Number(limit) : undefined,
-      orderBy: [['startupName', 'ASC']],
+      orderBy: [['id', 'ASC']],
     });
 
     return records.map((record) => ({
       id: record.id,
-      label: record.startupName,
+      label: record.id,
     }));
   }
-
-  static async createFromAuth(data, options) {
-    const transaction = (options && options.transaction) || undefined;
-    const startups = await db.startups.create(
-      {
-        email: data.email,
-        startupName: data.startupName,
-      },
-      { transaction },
-    );
-
-
-    await startups.update(
-      {
-        authenticationUid: users.id,
-      },
-      { transaction },
-    );
-
-    return startups;
-  }
-
 };

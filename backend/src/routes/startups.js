@@ -1,7 +1,7 @@
 const express = require('express');
 
 const StartupsService = require('../services/startups');
-const StartupsDBApi = require('../db/api/users');
+const StartupsDBApi = require('../db/api/startups');
 const wrapAsync = require('../helpers').wrapAsync;
 
 const router = express.Router();
@@ -10,7 +10,7 @@ const { parse } = require('json2csv');
 
 const { checkCrudPermissions } = require('../middlewares/check-permissions');
 
-router.use(checkCrudPermissions('users'));
+router.use(checkCrudPermissions('startups'));
 
 /**
  *  @swagger
@@ -210,7 +210,7 @@ router.delete(
  *      description: Get all startups
  *      responses:
  *        200:
- *          description: Users list successfully received
+ *          description: Startups list successfully received
  *          content:
  *            application/json:
  *              schema:
@@ -232,7 +232,13 @@ router.get(
 
     const payload = await StartupsDBApi.findAll(req.query);
     if (filetype && filetype === 'csv') {
-      const fields = ['id', 'startupName', 'contactPerson', 'phoneNumber', 'email'];
+      const fields = [
+        'id',
+        'startupName',
+        'contactPerson',
+        'phoneNumber',
+        'email',
+      ];
       const opts = { fields };
       try {
         const csv = parse(payload.rows, opts);
@@ -258,7 +264,7 @@ router.get(
  *      description: Count all startups
  *      responses:
  *        200:
- *          description: Users count successfully received
+ *          description: Startups count successfully received
  *          content:
  *            application/json:
  *              schema:
@@ -356,8 +362,6 @@ router.get(
   '/:id',
   wrapAsync(async (req, res) => {
     const payload = await StartupsDBApi.findBy({ id: req.params.id });
-
-    delete payload.password;
 
     res.status(200).send(payload);
   }),
