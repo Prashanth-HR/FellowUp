@@ -1,6 +1,6 @@
-import * as dataFormat from 'pages/CRUD/Users/table/UsersDataFormatters';
+import * as dataFormat from 'pages/CRUD/Startups/table/StartupsDataFormatters';
 
-import actions from 'actions/users/usersListActions';
+import actions from 'actions/startups/startupsListActions';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -51,8 +51,8 @@ const StartupsTable = () => {
   const [width, setWidth] = React.useState(window.innerWidth);
 
   const [filters] = React.useState([
-    { label: 'First Name', title: 'firstName' },
-    { label: 'Last Name', title: 'lastName' },
+    { label: 'Startup Name', title: 'startupName' },
+    { label: 'Contact Person', title: 'contactPerson' },
     { label: 'Phone Number', title: 'phoneNumber' },
     { label: 'E-Mail', title: 'email' },
   ]);
@@ -64,10 +64,10 @@ const StartupsTable = () => {
   const [sortModel, setSortModel] = React.useState([]);
   const [selectionModel, setSelectionModel] = React.useState([]);
   // eslint-disable-next-line no-unused-vars
-  const count = useSelector((store) => store.users.list.count);
-  const modalOpen = useSelector((store) => store.users.list.modalOpen);
-  const rows = useSelector((store) => store.users.list.rows);
-  const idToDelete = useSelector((store) => store.users.list.idToDelete);
+  const count = useSelector((store) => store.startups.list.count);
+  const modalOpen = useSelector((store) => store.startups.list.modalOpen);
+  const rows = useSelector((store) => store.startups.list.rows);
+  const idToDelete = useSelector((store) => store.startups.list.idToDelete);
 
   const [rowsState, setRowsState] = React.useState({
     page: 0,
@@ -186,19 +186,19 @@ const StartupsTable = () => {
 
   const columns = [
     {
-      field: 'firstName',
+      field: 'startupName',
 
       flex: 0.6,
 
-      headerName: 'First Name',
+      headerName: 'Startup Name',
     },
 
     {
-      field: 'lastName',
+      field: 'contactPerson',
 
       flex: 0.6,
 
-      headerName: 'Last Name',
+      headerName: 'Contact Person',
     },
 
     {
@@ -217,28 +217,14 @@ const StartupsTable = () => {
       headerName: 'E-Mail',
     },
 
-    {
-      field: 'role',
+    // {
+    //   field: 'avatar',
 
-      headerName: 'Role',
-    },
+    //   sortable: false,
+    //   renderCell: (params) => dataFormat.imageFormatter(params.row),
 
-    {
-      field: 'disabled',
-
-      renderCell: (params) => dataFormat.booleanFormatter(params.row),
-
-      headerName: 'Disabled',
-    },
-
-    {
-      field: 'avatar',
-
-      sortable: false,
-      renderCell: (params) => dataFormat.imageFormatter(params.row),
-
-      headerName: 'Avatar',
-    },
+    //   headerName: 'Avatar',
+    // },
 
     {
       field: 'id',
@@ -259,9 +245,9 @@ const StartupsTable = () => {
 
   return (
     <div>
-      <Widget title='Users' disableWidgetMenu>
+      <Widget title='StartUps' disableWidgetMenu>
         <Box className={classes.actions}>
-          <Link to='/app/user/new'>
+          <Link to='/app/startups/new'>
             <Button variant='contained'>New</Button>
           </Link>
           <Button type='button' variant='contained' onClick={addFilter}>
@@ -399,7 +385,7 @@ const StartupsTable = () => {
             disableColumnMenu
             loading={loading}
             onRowClick={(e) => {
-              history.push(`/app/users/${e.id}/edit`);
+              history.push(`/app/startups/${e.id}/edit`);
             }}
             autoHeight
           />

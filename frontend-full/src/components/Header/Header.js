@@ -109,7 +109,7 @@ export default function Header(props) {
           )}
         </IconButton>
         <Typography variant='h6' weight='medium' className={classes.logotype}>
-          React Material Admin Full
+          FellowUp
         </Typography>
         <div className={classes.grow} />
         <IconButton

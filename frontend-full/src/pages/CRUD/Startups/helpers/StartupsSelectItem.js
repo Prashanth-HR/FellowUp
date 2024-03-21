@@ -5,11 +5,11 @@ import { connect } from 'react-redux';
 
 async function selectList(query, limit) {
   const params = { query, limit };
-  const response = await axios.get(`/users/autocomplete`, { params });
+  const response = await axios.get(`/startups/autocomplete`, { params });
   return response.data;
 }
 
-const UsersSelectItem = (props) => {
+const StartupsSelectItem = (props) => {
   const [items, setItems] = useState([]);
 
   const fetchToItem = (value, limit) => {
@@ -32,7 +32,7 @@ const UsersSelectItem = (props) => {
 
       let label = originalValue.label
         ? originalValue.label
-        : originalValue.firstName;
+        : originalValue.startupName;
 
       return {
         id: originalValue.id,
@@ -71,4 +71,4 @@ const select = (state) => ({
   hasPermissionToCreate: state.users.hasPermissionToCreate,
 });
 
-export default connect(select)(UsersSelectItem);
+export default connect(select)(StartupsSelectItem);

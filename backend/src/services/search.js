@@ -42,6 +42,8 @@ module.exports = class SearchService {
       }
       const tableColumns = {
         users: ['firstName', 'lastName', 'phoneNumber', 'email'],
+
+        startups: ['startupName', 'contactPerson', 'phoneNumber', 'email'],
       };
       const columnsInt = {};
 
