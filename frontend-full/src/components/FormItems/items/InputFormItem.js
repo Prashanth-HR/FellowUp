@@ -9,6 +9,7 @@ const InputFormItem = (props) => {
     name,
     schema,
     hint,
+    type,
     placeholder,
     autoFocus,
     autoComplete,
@@ -29,6 +30,7 @@ const InputFormItem = (props) => {
             fullWidth
             label={label}
             multiline={multiline}
+            type={type}
             rows={multiline && 4}
             onChange={(event) => {
               form.setFieldValue(name, event.target.value);
