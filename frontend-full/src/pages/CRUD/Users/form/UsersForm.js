@@ -98,7 +98,7 @@ const UsersForm = (props) => {
               </Grid>
 
               <Grid item>
-                <InputFormItem name={'password'} schema={usersFields} />
+                <InputFormItem name={'password'} schema={usersFields} type="password"/>
               </Grid>
             </Grid>
             <Grid container spacing={3} mt={2}>

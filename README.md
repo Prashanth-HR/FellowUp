@@ -1,7 +1,13 @@
 # FellowUp
 ### Connect, manage and create social impact
 
-FellowUp is developed by 4 enthusiastic individuals in the Stark Hack 2024. This project aims to help the Start Fellowship monitor progress of current and alumni startups and foster social connections and collaborations between changemakers with common goals.
+FellowUp is developed by 4 enthusiastic individuals in the Start Hack 2024. This project aims to help the Start Fellowship monitor progress of current and alumni startups and foster social connections and collaborations between changemakers with common goals.
+
+The START Fellowship usecase : https://github.com/START-Hack/Fellowship_STARTHACK24
+
+
+# Video of working prototype
+[![Demo Video](https://img.youtube.com/vi/xkjCCDVFNGI/0.jpg)]( https://www.youtube.com/watch?v=xkjCCDVFNGI)
 
   - Frontend: [React.js](https://flatlogic.com/templates?framework%5B%5D=react&sort=default)
 
