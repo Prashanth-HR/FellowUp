@@ -51,10 +51,10 @@ import { lighten } from '@mui/material/styles';
 import cn from "classnames";
 
 const PieChartData = [
-  { name: "Group A", value: 400, color: "primary" },
-  { name: "Group B", value: 300, color: "secondary" },
-  { name: "Group C", value: 300, color: "warning" },
-  { name: "Group D", value: 200, color: "success" }
+  { name: "Sponsor", value: 400, color: "primary" },
+  { name: "University", value: 300, color: "secondary" },
+  { name: "Private", value: 300, color: "warning" },
+  { name: "Flix-Assist", value: 200, color: "success" }
 ];
 
 const TicketChartData = [
@@ -85,76 +85,70 @@ const TicketChartData = [
 const rows = [
   {
     id: 1,
-    orderId: Math.floor(Math.random(0) * 3000000),
-    customer: "Victoria Cantrel",
-    office: "Croatia",
-    weight: "1.4 kg",
-    price: 23.87,
-    purDate: "12 Jan 2019",
-    delDate: "-",
+    startup: "EcoDyne",
+    location: "India",
+    industry: "Green Tech",
+    impact: "Social",
+    lastcheckin: "12 Jan 2019",
+    successprob: "0.66",
     status: "Pending",
     color: "primary"
   },
   {
     id: 2,
-    orderId: Math.floor(Math.random(0) * 3000000),
-    customer: "Cherokee Ware",
-    office: "Belgium",
-    weight: "0.8 kg",
-    price: 987,
-    purDate: "11 Jan 2019",
-    delDate: "14 Jan 2019",
-    status: "Delivered",
+    startup: "EcoDyne",
+    location: "India",
+    industry: "Green Tech",
+    impact: "Social",
+    lastcheckin: "12 Jan 2019",
+    successprob: "0.66",
+    status: "Pending",
     color: "success"
   },
   {
     id: 3,
-    orderId: Math.floor(Math.random(0) * 3000000),
-    customer: "Constance Clayton",
-    office: "Peru",
-    weight: "105 kg",
-    price: 1.876,
-    purDate: "09 Jan 2019",
-    delDate: "-",
-    status: "Canceled",
-    color: "secondary"
+    startup: "EcoDyne",
+    location: "India",
+    industry: "Green Tech",
+    impact: "Social",
+    lastcheckin: "12 Jan 2019",
+    successprob: "0.66",
+    status: "Pending",
+    color: "warning"
   },
   {
     id: 4,
-    orderId: Math.floor(Math.random(0) * 3000000),
-    customer: "Cherokee Ware",
-    office: "Belgium",
-    weight: "0.8 kg",
-    price: 987,
-    purDate: "11 Jan 2019",
-    delDate: "14 Jan 2019",
-    status: "Delivered",
-    color: "success"
+    startup: "EcoDyne",
+    location: "India",
+    industry: "Green Tech",
+    impact: "Social",
+    lastcheckin: "12 Jan 2019",
+    successprob: "0.66",
+    status: "Pending",
+    color: "primary"
   },
   {
     id: 5,
-    orderId: Math.floor(Math.random(0) * 3000000),
-    customer: "Constance Clayton",
-    office: "Peru",
-    weight: "105 kg",
-    price: 1.876,
-    purDate: "06 Jan 2019",
-    delDate: "19 Jan 2019",
-    status: "In a process",
-    color: "warning"
+    startup: "EcoDyne",
+    location: "India",
+    industry: "Green Tech",
+    impact: "Social",
+    lastcheckin: "12 Jan 2019",
+    successprob: "0.66",
+    status: "Pending",
+    color: "primary"
   },
   {
     id: 6,
-    orderId: Math.floor(Math.random() * 3000000),
-    customer: "Constance Clayton",
-    office: "Peru",
-    weight: "105 kg",
-    price: 1.876,
-    purDate: "06 Jan 2019",
-    delDate: "19 Jan 2019",
-    status: "In a process",
-    color: "warning"
-  }
+    startup: "EcoDyne",
+    location: "India",
+    industry: "Green Tech",
+    impact: "Social",
+    lastcheckin: "12 Jan 2019",
+    successprob: "0.66",
+    status: "Pending",
+    color: "secondary"
+  },
 ];
 
 function desc(a, b, orderBy) {
@@ -184,27 +178,27 @@ function getSorting(order, orderBy) {
 }
 
 const headCells = [
+  // {
+  //   id: "id",
+  //   numeric: true,
+  //   disablePadding: true,
+  //   label: "Order ID"
+  // },
+  { id: "startup", numeric: false, disablePadding: false, label: "StartUP" },
+  { id: "location", numeric: false, disablePadding: false, label: "Location" },
+  { id: "industry", numeric: false, disablePadding: false, label: "Industry" },
+  { id: "impact", numeric: false, disablePadding: false, label: "Impact" },
   {
-    id: "id",
-    numeric: true,
-    disablePadding: true,
-    label: "Order ID"
-  },
-  { id: "customer", numeric: true, disablePadding: false, label: "Customer" },
-  { id: "office", numeric: true, disablePadding: false, label: "Office" },
-  { id: "weight", numeric: true, disablePadding: false, label: "Netto Weight" },
-  { id: "price", numeric: true, disablePadding: false, label: "Price" },
-  {
-    id: "purchase-date",
-    numeric: true,
-    disablePadding: false,
-    label: "Date of purchase"
-  },
-  {
-    id: "delivery-date",
+    id: "lastcheckin",
     numeric: true,
     disablePadding: false,
-    label: "Date of Delivery"
+    label: "LAST Check-in"
+  },
+  {
+    id: "successprob",
+    numeric: true,
+    disablePadding: false,
+    label: "Succes Probability"
   },
   { id: "status", numeric: true, disablePadding: false, label: "Status" },
   { id: "actions", numeric: true, disablePadding: false, label: "Actions" }
@@ -445,7 +439,7 @@ function Dashboard() {
     <Grid container spacing={3}>
       <Grid item lg={3} sm={6} xs={12}>
         <Widget
-            title="Support Tracker"
+            title="Info Updates"
             bodyClass={classes.fullHeightBody}
             className={classes.card}
         >
@@ -521,7 +515,7 @@ function Dashboard() {
                   style={{ marginRight: 5 }}
                   noWrap
               >
-                New Tickets
+                7 days
               </Typography>
               <Box display="flex" alignItems="center" justifyContent={"center"}>
                 <Typography
@@ -541,7 +535,7 @@ function Dashboard() {
                   variant={"caption"}
                   style={{ marginRight: 5 }}
               >
-                Open
+                14 Days
               </Typography>
               <Box display="flex" alignItems="center" justifyContent={"center"}>
                 <Typography
@@ -560,7 +554,7 @@ function Dashboard() {
                   colorBrightness={"hint"}
                   variant={"caption"}
               >
-                Completed
+                1 Month
               </Typography>
               <Box display="flex" alignItems="center" justifyContent={"center"}>
                 <Typography
@@ -578,7 +572,7 @@ function Dashboard() {
       </Grid>
       <Grid item lg={3} sm={6} xs={12}>
         <Widget
-            title="Revenue Breakdown"
+            title="Budget Status"
             className={classes.card}
             bodyClass={classes.alignStandaloneElement}
         >
@@ -644,7 +638,7 @@ function Dashboard() {
       </Grid>
       <Grid item lg={3} sm={6} xs={12}>
         <Widget
-            title="App Performance"
+            title="Fundraising in 2024"
             className={classes.card}
             bodyClass={classes.fullHeightBody}
         >
@@ -657,7 +651,7 @@ function Dashboard() {
                   variant={"body2"}
                   className={classes.legendElementText}
               >
-                Integration
+                Juffy
               </Typography>
             </div>
             <div className={classes.legendElement}>
@@ -668,7 +662,7 @@ function Dashboard() {
                   variant={"body2"}
                   className={classes.legendElementText}
               >
-                SDK
+                Devom
               </Typography>
             </div>
           </div>
@@ -678,7 +672,7 @@ function Dashboard() {
                 variant={"body2"}
                 className={classes.progressSectionTitle}
             >
-              Integration
+              1.2M
             </Typography>
             <LinearProgress
               variant="determinate"
@@ -693,7 +687,7 @@ function Dashboard() {
               variant={"body2"}
               className={classes.progressSectionTitle}
             >
-              SDK
+              6M
             </Typography>
             <LinearProgress
               variant="determinate"
@@ -706,7 +700,7 @@ function Dashboard() {
       </Grid>
       <Grid item lg={3} sm={6} xs={12}>
         <Widget
-            title="Server Overview"
+            title="Latest Activity"
             className={classes.card}
             bodyClass={classes.fullHeightBody}
         >
@@ -718,7 +712,7 @@ function Dashboard() {
                 weight={"medium"}
                 className={classes.serverOverviewElementText}
             >
-              60% / 37°С / 3.3 Ghz
+              Info updates
             </Typography>
             <div className={classes.serverOverviewElementChartWrapper}>
               <ResponsiveContainer height={50} width="99%">
@@ -743,7 +737,7 @@ function Dashboard() {
                 variant={"body2"}
                 className={classes.serverOverviewElementText}
             >
-              54% / 31°С / 3.3 Ghz
+              Matches
             </Typography>
             <div className={classes.serverOverviewElementChartWrapper}>
               <ResponsiveContainer height={50} width="99%">
@@ -768,7 +762,7 @@ function Dashboard() {
                 variant={"body2"}
                 className={classes.serverOverviewElementText}
             >
-              57% / 21°С / 3.3 Ghz
+              Follow-ups
             </Typography>
             <div className={classes.serverOverviewElementChartWrapper}>
               <ResponsiveContainer height={50} width="99%">
@@ -798,19 +792,19 @@ function Dashboard() {
                   weight={"medium"}
                   colorBrightness="secondary"
                 >
-                  Daily Line Chart
+                  User Engagement
                 </Typography>
                 <div className={classes.mainChartHeaderLabels}>
                   <div className={classes.mainChartHeaderLabel}>
                     <Dot color="warning" />
                     <Typography className={classes.mainChartLegendElement}>
-                      Tablet
+                      Partner
                     </Typography>
                   </div>
                   <div className={classes.mainChartHeaderLabel}>
                     <Dot color="primary" />
                     <Typography className={classes.mainChartLegendElement}>
-                      Mobile
+                      Startupper
                     </Typography>
                   </div>
                   <div className={classes.mainChartHeaderLabel}>
@@ -959,14 +953,14 @@ function Dashboard() {
                               alignItems={"center"}
                           >
                             <Avatar
-                                alt={row.customer}
+                                alt={row.startup}
                                 color={row.color}
                                 style={{ marginRight: 8 }}
                             >
-                              {row.customer[0]}
+                              {row.startup[0]}
                             </Avatar>
                             <Typography style={{ whiteSpace: "nowrap" }}>
-                              {row.customer}
+                              {row.startup}
                             </Typography>
                           </Box>
                         </TableCell>

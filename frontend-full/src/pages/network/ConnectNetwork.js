@@ -1,56 +1,29 @@
+import {
+  Delete as DeleteIcon,
+  FilterList as FilterListIcon, MoreVert as MoreIcon
+} from "@mui/icons-material";
+import ChatIcon from '@mui/icons-material/Chat';
+import PhoneIcon from '@mui/icons-material/Phone';
+import {
+  Box, Checkbox, Grid, IconButton, Menu, MenuItem, Table,
+  TableBody, TableCell, TableHead, TablePagination, TableRow, TableSortLabel,
+  Toolbar
+} from "@mui/material";
+import { lighten } from '@mui/material/styles';
+import { makeStyles, useTheme } from '@mui/styles';
+import cn from "classnames";
+import PropTypes from "prop-types";
 import React, { useState } from "react";
 import {
-  Grid,
-  LinearProgress,
-  Select,
-  OutlinedInput,
-  MenuItem,
-  Box,
-  Table,
-  TableBody,
-  TableRow,
-  TableCell,
-  Checkbox,
-  TablePagination,
-  TableHead,
-  TableSortLabel,
-  Toolbar,
-  IconButton, Menu
-} from "@mui/material";
-import { useTheme, makeStyles } from '@mui/styles';
-import ChatIcon from '@mui/icons-material/Chat';
-import {
-  ResponsiveContainer,
-  ComposedChart,
-  AreaChart,
-  Line,
-  Area,
-  PieChart,
-  Pie,
-  Cell,
-  YAxis,
-  XAxis,
   Tooltip
 } from "recharts";
-
+import Widget from "../../components/Widget";
+import { Avatar, Typography } from "../../components/Wrappers";
 // styles
 import useStyles from "./styles";
 
-// components
-import mock from "./mock";
-import Widget from "../../components/Widget";
-import { Chip, Typography, Avatar } from "../../components/Wrappers";
-import Dot from "../../components/Sidebar/components/Dot";
-import BigStat from "./components/BigStat/BigStat";
-import PhoneIcon from '@mui/icons-material/Phone';
-import {
-  Delete as DeleteIcon,
-  FilterList as FilterListIcon, MoreVert as MoreIcon,
-} from "@mui/icons-material";
-import PropTypes from "prop-types";
 
-import { lighten } from '@mui/material/styles';
-import cn from "classnames";
+
 
 const PieChartData = [
   { name: "Group A", value: 400, color: "primary" },
@@ -132,8 +105,8 @@ function stableSort(array, cmp) {
 
 function getSorting(order, orderBy) {
   return order === "desc"
-      ? (a, b) => desc(a, b, orderBy)
-      : (a, b) => -desc(a, b, orderBy);
+    ? (a, b) => desc(a, b, orderBy)
+    : (a, b) => -desc(a, b, orderBy);
 }
 
 const headCells = [
@@ -171,46 +144,46 @@ function EnhancedTableHead(props) {
   const createSortHandler = property => event => {
     onRequestSort(event, property);
   };
-  
+
   return (
-      <TableHead>
-        <TableRow>
-          <TableCell padding="checkbox">
-            <Checkbox
-                indeterminate={numSelected > 0 && numSelected < rowCount}
-                checked={numSelected === rowCount}
-                onChange={onSelectAllClick}
-                inputProps={{ "aria-label": "select all rows" }}
-            />
-          </TableCell>
-          {headCells.map(headCell => (
-              <TableCell
-                  key={headCell.id}
-                  align={headCell.numeric ? "left" : "right"}
-                  padding={headCell.disablePadding ? "none" : null}
-                  sortDirection={orderBy === headCell.id ? order : false}
-              >
-                <TableSortLabel
-                    active={orderBy === headCell.id}
-                    direction={order}
-                    onClick={createSortHandler(headCell.id)}
-                    style={{
-                      whiteSpace: "nowrap",
-                      textTransform: "uppercase",
-                      fontSize: "0.85rem",
-                    }}
-                >
-                  <Typography uppercase color="text" variant={"body2"} colorBrightness="hint">{headCell.label}</Typography>
-                  {orderBy === headCell.id ? (
-                      <span className={classes.visuallyHidden}>
+    <TableHead>
+      <TableRow>
+        <TableCell padding="checkbox">
+          <Checkbox
+            indeterminate={numSelected > 0 && numSelected < rowCount}
+            checked={numSelected === rowCount}
+            onChange={onSelectAllClick}
+            inputProps={{ "aria-label": "select all rows" }}
+          />
+        </TableCell>
+        {headCells.map(headCell => (
+          <TableCell
+            key={headCell.id}
+            align={headCell.numeric ? "left" : "right"}
+            padding={headCell.disablePadding ? "none" : null}
+            sortDirection={orderBy === headCell.id ? order : false}
+          >
+            <TableSortLabel
+              active={orderBy === headCell.id}
+              direction={order}
+              onClick={createSortHandler(headCell.id)}
+              style={{
+                whiteSpace: "nowrap",
+                textTransform: "uppercase",
+                fontSize: "0.85rem",
+              }}
+            >
+              <Typography uppercase color="text" variant={"body2"} colorBrightness="hint">{headCell.label}</Typography>
+              {orderBy === headCell.id ? (
+                <span className={classes.visuallyHidden}>
                   {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </span>
-                  ) : null}
-                </TableSortLabel>
-              </TableCell>
-          ))}
-        </TableRow>
-      </TableHead>
+              ) : null}
+            </TableSortLabel>
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
   );
 }
 
@@ -226,15 +199,15 @@ EnhancedTableHead.propTypes = {
 
 const useToolbarStyles = makeStyles(theme => ({
   highlight:
-      theme.palette.type === "light"
-          ? {
-            color: theme.palette.secondary.main,
-            backgroundColor: lighten(theme.palette.secondary.light, 0.85)
-          }
-          : {
-            color: theme.palette.text.primary,
-            backgroundColor: theme.palette.secondary.dark
-          },
+    theme.palette.type === "light"
+      ? {
+        color: theme.palette.secondary.main,
+        backgroundColor: lighten(theme.palette.secondary.light, 0.85)
+      }
+      : {
+        color: theme.palette.text.primary,
+        backgroundColor: theme.palette.secondary.dark
+      },
   title: {
     flex: "1 1 100%"
   }
@@ -245,57 +218,57 @@ const EnhancedTableToolbar = props => {
   const { numSelected } = props;
 
   return (
-      <Toolbar
-        className={cn(classes.root, {
-          [classes.highlight]: numSelected > 0
-        })}
-      >
-        {numSelected > 0 ? (
+    <Toolbar
+      className={cn(classes.root, {
+        [classes.highlight]: numSelected > 0
+      })}
+    >
+      {numSelected > 0 ? (
+        <Typography
+          className={classes.title}
+          color="inherit"
+          variant="subtitle1"
+        >
+          {numSelected} selected
+        </Typography>
+      ) : (
+        <Box display={"flex"} className={classes.title}>
           <Typography
-            className={classes.title}
-            color="inherit"
-            variant="subtitle1"
+            variant="h6"
+            color="text"
+            colorBrightness={"secondary"}
+            id="tableTitle"
+            style={{ display: "flex" }}
+            block
           >
-            {numSelected} selected
-          </Typography>
-        ) : (
-            <Box display={"flex"} className={classes.title}>
+            Your connections
+            <Box display="flex" alignSelf={"flex-end"} ml={1}>
               <Typography
-                variant="h6"
                 color="text"
-                colorBrightness={"secondary"}
-                id="tableTitle"
-                style={{ display: "flex" }}
-                block
+                colorBrightness={"hint"}
+                variant={"caption"}
               >
-                Your connections
-                <Box display="flex" alignSelf={"flex-end"} ml={1}>
-                  <Typography
-                    color="text"
-                    colorBrightness={"hint"}
-                    variant={"caption"}
-                  >
-                    2 total
-                  </Typography>
-                </Box>
+                2 total
               </Typography>
             </Box>
-        )}
+          </Typography>
+        </Box>
+      )}
 
-        {numSelected > 0 ? (
-            <Tooltip title="Delete">
-              <IconButton aria-label="delete">
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
-        ) : (
-            <Tooltip title="Filter list">
-              <IconButton aria-label="filter list">
-                <FilterListIcon />
-              </IconButton>
-            </Tooltip>
-        )}
-      </Toolbar>
+      {numSelected > 0 ? (
+        <Tooltip title="Delete">
+          <IconButton aria-label="delete">
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
+      ) : (
+        <Tooltip title="Filter list">
+          <IconButton aria-label="filter list">
+            <FilterListIcon />
+          </IconButton>
+        </Tooltip>
+      )}
+    </Toolbar>
   );
 };
 
@@ -317,7 +290,7 @@ function ConnectNetwork() {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [actionsButtonRefID, setActionsButtonRefID] =  React.useState(null);
+  const [actionsButtonRefID, setActionsButtonRefID] = React.useState(null);
   const [isActionsMenu, setActionsMenu] = React.useState(false)
 
 
@@ -348,8 +321,8 @@ function ConnectNetwork() {
       newSelected = newSelected.concat(selected.slice(0, -1));
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
-          selected.slice(0, selectedIndex),
-          selected.slice(selectedIndex + 1)
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
       );
     }
 
@@ -368,7 +341,7 @@ function ConnectNetwork() {
   const isSelected = name => selected.indexOf(name) !== -1;
 
   const emptyRows =
-      rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   const randomData = React.useMemo(() => getRandomData(10), []);
 
@@ -391,9 +364,9 @@ function ConnectNetwork() {
 
   return (
     <Grid container spacing={3}>
- 
+
       <Grid item lg={3} sm={6} xs={12}>
-        
+
       </Grid>
 
       <Grid item xs={12}>
@@ -401,18 +374,18 @@ function ConnectNetwork() {
           <EnhancedTableToolbar numSelected={selected.length} />
           <div className={classes.tableWrapper}>
             <Table
-                className={classes.table}
-                aria-labelledby="tableTitle"
-                aria-label="recent orders"
+              className={classes.table}
+              aria-labelledby="tableTitle"
+              aria-label="recent orders"
             >
               <EnhancedTableHead
-                  classes={classes}
-                  numSelected={selected.length}
-                  order={order}
-                  orderBy={orderBy}
-                  onSelectAllClick={handleSelectAllClick}
-                  onRequestSort={handleRequestSort}
-                  rowCount={rows.length}
+                classes={classes}
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={handleSelectAllClick}
+                onRequestSort={handleRequestSort}
+                rowCount={rows.length}
               />
               <TableBody>
                 {stableSort(rows, getSorting(order, orderBy))
@@ -433,8 +406,8 @@ function ConnectNetwork() {
                       >
                         <TableCell padding="checkbox">
                           <Checkbox
-                              checked={isItemSelected}
-                              inputProps={{ "aria-labelledby": labelId }}
+                            checked={isItemSelected}
+                            inputProps={{ "aria-labelledby": labelId }}
                           />
                         </TableCell>
                         {/* <TableCell
@@ -447,14 +420,14 @@ function ConnectNetwork() {
                         </TableCell> */}
                         <TableCell>
                           <Box
-                              display={"flex"}
-                              flexWrap={"nowrap"}
-                              alignItems={"center"}
+                            display={"flex"}
+                            flexWrap={"nowrap"}
+                            alignItems={"center"}
                           >
                             <Avatar
-                                alt={row.customer}
-                                color={row.color}
-                                style={{ marginRight: 8 }}
+                              alt={row.customer}
+                              color={row.color}
+                              style={{ marginRight: 8 }}
                             >
                               {row.customer[0]}
                             </Avatar>
@@ -469,25 +442,25 @@ function ConnectNetwork() {
                         <TableCell>{row.purDate}</TableCell>
                         <TableCell>{row.delDate}</TableCell>
                         <TableCell>
-                        <IconButton aria-label="call">
+                          <IconButton aria-label="call">
                             <PhoneIcon />
                           </IconButton>
                           <IconButton aria-label="chat">
                             <ChatIcon />
                           </IconButton>
                         </TableCell>
-                       
+
                         <TableCell align={"center"}>
                           <IconButton
-                              className={classes.actionsIcon}
-                              aria-owns="actions-menu"
-                              aria-haspopup="true"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setActionsMenu(true);
-                                setActionsButtonRefID(e.currentTarget)
-                              }}
-                              ref={setActionsButtonRefID}
+                            className={classes.actionsIcon}
+                            aria-owns="actions-menu"
+                            aria-haspopup="true"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setActionsMenu(true);
+                              setActionsButtonRefID(e.currentTarget)
+                            }}
+                            ref={setActionsButtonRefID}
                           >
                             <MoreIcon />
                           </IconButton>
@@ -513,8 +486,8 @@ function ConnectNetwork() {
                   })}
                 {emptyRows > 0 && (
                   <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
+                    <TableCell colSpan={6} />
+                  </TableRow>
                 )}
               </TableBody>
             </Table>
@@ -550,10 +523,10 @@ function getRandomData(length, min, max, multiplier = 10, maxDiff = 10) {
     let randomValue = Math.floor(Math.random() * multiplier + 1);
 
     while (
-        randomValue <= min ||
-        randomValue >= max ||
-        (lastValue && randomValue - lastValue > maxDiff)
-        ) {
+      randomValue <= min ||
+      randomValue >= max ||
+      (lastValue && randomValue - lastValue > maxDiff)
+    ) {
       randomValue = Math.floor(Math.random() * multiplier + 1);
     }
 
