@@ -153,14 +153,14 @@ export default function Header(props) {
             <Typography variant='h4' weight='medium'>
               {currentUser?.firstName}
             </Typography>
-            <Typography
+            {/* <Typography
               className={classes.profileMenuLink}
               component='a'
               color='primary'
               href='https://flatlogic.com'
             >
               Flatlogic.com
-            </Typography>
+            </Typography> */}
           </div>
           <MenuItem
             className={classNames(
