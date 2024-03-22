@@ -212,7 +212,7 @@ function Layout(props) {
           <SettingsIcon style={{ color: '#fff' }} />
         </Fab>
         <ColorChangeThemePopper id={id} open={open} anchorEl={anchorEl} />
-        <Footer>
+        {/* <Footer>
           <div>
             <Link
               color={'primary'}
@@ -259,7 +259,7 @@ function Layout(props) {
               </IconButton>
             </Link>
           </div>
-        </Footer>
+        </Footer> */}
       </div>
     </div>
   );

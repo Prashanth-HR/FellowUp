@@ -91,62 +91,62 @@ const rows = [
     impact: "Social",
     lastcheckin: "12 Jan 2019",
     successprob: "0.66",
-    status: "Pending",
+    status: "Picth call",
     color: "primary"
   },
   {
     id: 2,
-    startup: "EcoDyne",
-    location: "India",
-    industry: "Green Tech",
-    impact: "Social",
-    lastcheckin: "12 Jan 2019",
-    successprob: "0.66",
-    status: "Pending",
+    startup: "DroneAI",
+    location: "France",
+    industry: "Defence",
+    impact: "Security",
+    lastcheckin: "1 Sep 2019",
+    successprob: "0.76",
+    status: "Check-In",
     color: "success"
   },
   {
     id: 3,
-    startup: "EcoDyne",
-    location: "India",
-    industry: "Green Tech",
-    impact: "Social",
-    lastcheckin: "12 Jan 2019",
-    successprob: "0.66",
-    status: "Pending",
+    startup: "Sticker",
+    location: "Germany",
+    industry: "Robotics Tech",
+    impact: "Sustainibility",
+    lastcheckin: "12 Mar 2023",
+    successprob: "0.57",
+    status: "Network",
     color: "warning"
   },
   {
     id: 4,
-    startup: "EcoDyne",
-    location: "India",
-    industry: "Green Tech",
-    impact: "Social",
-    lastcheckin: "12 Jan 2019",
-    successprob: "0.66",
-    status: "Pending",
+    startup: "Chef++",
+    location: "Germany",
+    industry: "Food Tech",
+    impact: "Circular Economy",
+    lastcheckin: "23 Jun 2022",
+    successprob: "0.83",
+    status: "Pitch call",
     color: "primary"
   },
   {
     id: 5,
-    startup: "EcoDyne",
-    location: "India",
-    industry: "Green Tech",
+    startup: "Remembro",
+    location: "Germany",
+    industry: "AI Tech",
     impact: "Social",
     lastcheckin: "12 Jan 2019",
     successprob: "0.66",
-    status: "Pending",
+    status: "Pitch call",
     color: "primary"
   },
   {
     id: 6,
-    startup: "EcoDyne",
-    location: "India",
-    industry: "Green Tech",
-    impact: "Social",
-    lastcheckin: "12 Jan 2019",
+    startup: "Purple",
+    location: "Germany",
+    industry: "Agri Tech",
+    impact: "Sustainibility",
+    lastcheckin: "12 Jan 2022",
     successprob: "0.66",
-    status: "Pending",
+    status: "Info session",
     color: "secondary"
   },
 ];
@@ -938,14 +938,14 @@ function Dashboard() {
                               inputProps={{ "aria-labelledby": labelId }}
                           />
                         </TableCell>
-                        <TableCell
+                        {/* <TableCell
                             component="th"
                             id={labelId}
                             scope="row"
                             padding="none"
                         >
                           {row.orderId}
-                        </TableCell>
+                        </TableCell> */}
                         <TableCell>
                           <Box
                               display={"flex"}
@@ -964,11 +964,11 @@ function Dashboard() {
                             </Typography>
                           </Box>
                         </TableCell>
-                        <TableCell>{row.office}</TableCell>
-                        <TableCell>{row.weight}</TableCell>
-                        <TableCell>${row.price}</TableCell>
-                        <TableCell>{row.purDate}</TableCell>
-                        <TableCell>{row.delDate}</TableCell>
+                        <TableCell>{row.location}</TableCell>
+                        <TableCell>{row.industry}</TableCell>
+                        <TableCell>${row.impact}</TableCell>
+                        <TableCell>{row.lastcheckin}</TableCell>
+                        <TableCell>{row.successprob}</TableCell>
                         <TableCell>
                           <Chip label={row.status} color={row.color} />
                         </TableCell>
