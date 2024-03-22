@@ -144,7 +144,7 @@ Then give that new user privileges to the new database then quit the `psql`.
 
 ### Frontend:
 
-> Please change current folder: `cd frontend`
+> Please change current folder: `cd frontend-full`
 
   ### Quick Start
 
