@@ -1,442 +1,566 @@
-import React, { useEffect } from 'react';
-import { Grid, Box, TextField } from '@mui/material';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import { useParams } from 'react-router';
-import Checkbox from '@mui/material/Checkbox';
-import Switch from '@mui/material/Switch';
-import { useLocation, useHistory } from 'react-router-dom';
-import useStyles from './styles';
-
+import React, { useState } from "react";
 import {
-  PersonOutline as PersonOutlineIcon,
-  Lock as LockIcon,
-} from '@mui/icons-material';
-import uuid from 'uuid/v4';
-
-import Widget from '../../components/Widget/Widget';
-import { Typography, Button } from '@mui/material';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-
+  Grid,
+  LinearProgress,
+  Select,
+  OutlinedInput,
+  MenuItem,
+  Box,
+  Table,
+  TableBody,
+  TableRow,
+  TableCell,
+  Checkbox,
+  TablePagination,
+  TableHead,
+  TableSortLabel,
+  Toolbar,
+  IconButton, Menu
+} from "@mui/material";
+import { useTheme, makeStyles } from '@mui/styles';
+import ChatIcon from '@mui/icons-material/Chat';
 import {
-  useManagementDispatch,
-  useManagementState,
-} from '../../context/ManagementContext';
-import config from '../../config';
-import Axios from 'axios';
+  ResponsiveContainer,
+  ComposedChart,
+  AreaChart,
+  Line,
+  Area,
+  PieChart,
+  Pie,
+  Cell,
+  YAxis,
+  XAxis,
+  Tooltip
+} from "recharts";
 
-import { actions } from '../../context/ManagementContext';
-import { showSnackbar } from '../../components/Snackbar';
+// styles
+import useStyles from "./styles";
 
-const ConnectNetwork = () => {
-  const classes = useStyles();
-  const [tab, setTab] = React.useState(0);
-  const [password, setPassword] = React.useState({
-    newPassword: '',
-    confirmPassword: '',
-    currentPassword: '',
+// components
+import mock from "./mock";
+import Widget from "../../components/Widget";
+import { Chip, Typography, Avatar } from "../../components/Wrappers";
+import Dot from "../../components/Sidebar/components/Dot";
+import BigStat from "./components/BigStat/BigStat";
+import PhoneIcon from '@mui/icons-material/Phone';
+import {
+  Delete as DeleteIcon,
+  FilterList as FilterListIcon, MoreVert as MoreIcon,
+} from "@mui/icons-material";
+import PropTypes from "prop-types";
+
+import { lighten } from '@mui/material/styles';
+import cn from "classnames";
+
+const PieChartData = [
+  { name: "Group A", value: 400, color: "primary" },
+  { name: "Group B", value: 300, color: "secondary" },
+  { name: "Group C", value: 300, color: "warning" },
+  { name: "Group D", value: 200, color: "success" }
+];
+
+const TicketChartData = [
+  { name: "Client 1", value: 2, color: "primary" },
+  { name: "Client 2", value: 2, color: "primary" },
+  { name: "Client 3", value: 2, color: "primary" },
+  { name: "Client 4", value: 2, color: "primary" },
+  { name: "Client 5", value: 2, color: "primary" },
+  { name: "Client 6", value: 2, color: "primary" },
+  { name: "Client 7", value: 2, color: "primary" },
+  { name: "Client 8", value: 2, color: "primary" },
+  { name: "Client 9", value: 2, color: "primary" },
+  { name: "Client 10", value: 2, color: "primary" },
+  { name: "Client 11", value: 2, color: "primary" },
+  { name: "Client 12", value: 2, color: "primary" },
+  { name: "Client 13", value: 2, color: "primary" },
+  { name: "Client 14", value: 2, color: "primary" },
+  { name: "Client 15", value: 2, color: "primary" },
+  { name: "Client 16", value: 2, color: "primary" },
+  { name: "Client 17", value: 2, color: "primary" },
+  { name: "Client 18", value: 2, color: "primary" },
+  { name: "Client 19", value: 2, color: "primary" },
+  { name: "Client 20", value: 2, color: "primary" }
+];
+
+// Recent Orders
+
+const rows = [
+  {
+    id: 1,
+    orderId: Math.floor(Math.random(0) * 3000000),
+    customer: "EcoDyne",
+    office: "India",
+    weight: "Green Tech",
+    price: "Social",
+    purDate: "10 March 2024",
+    delDate: "Need guidance on value creation"
+    // status: "Call",
+  },
+  {
+    id: 2,
+    orderId: Math.floor(Math.random(0) * 3000000),
+    customer: "FrescoFeast",
+    office: "Nigeria",
+    weight: "Agri Tech/Food",
+    price: "Social | User",
+    purDate: "11 March 2024",
+    delDate: "On track"
+    // status: "Call",
+
+  }
+];
+
+function desc(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+function stableSort(array, cmp) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = cmp(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
   });
-  const [data, setData] = React.useState(null);
-  const [editable, setEditable] = React.useState(false);
-  let { id } = useParams();
-  const fileInput = React.useRef(null);
-  const handleChangeTab = (event, newValue) => {
-    setTab(newValue);
-  };
-  const location = useLocation();
-  const managementDispatch = useManagementDispatch();
-  const managementValue = useManagementState();
+  return stabilizedThis.map(el => el[0]);
+}
 
-  function extractExtensionFrom(filename) {
-    if (!filename) {
-      return null;
+function getSorting(order, orderBy) {
+  return order === "desc"
+      ? (a, b) => desc(a, b, orderBy)
+      : (a, b) => -desc(a, b, orderBy);
+}
+
+const headCells = [
+
+  { id: "startup", numeric: true, disablePadding: false, label: "StartUp" },
+  { id: "location", numeric: true, disablePadding: false, label: "Location" },
+  { id: "industry", numeric: true, disablePadding: false, label: "Industry" },
+  { id: "impact", numeric: true, disablePadding: false, label: "Impact" },
+  {
+    id: "checkin",
+    numeric: true,
+    disablePadding: false,
+    label: "Last check-in"
+  },
+  {
+    id: "notes",
+    numeric: true,
+    disablePadding: false,
+    label: "Notes"
+  }
+  // { id: "action", numeric: true, disablePadding: false, label: "Connect" }
+
+];
+
+function EnhancedTableHead(props) {
+  const {
+    classes,
+    onSelectAllClick,
+    order,
+    orderBy,
+    numSelected,
+    rowCount,
+    onRequestSort
+  } = props;
+  const createSortHandler = property => event => {
+    onRequestSort(event, property);
+  };
+  
+  return (
+      <TableHead>
+        <TableRow>
+          <TableCell padding="checkbox">
+            <Checkbox
+                indeterminate={numSelected > 0 && numSelected < rowCount}
+                checked={numSelected === rowCount}
+                onChange={onSelectAllClick}
+                inputProps={{ "aria-label": "select all rows" }}
+            />
+          </TableCell>
+          {headCells.map(headCell => (
+              <TableCell
+                  key={headCell.id}
+                  align={headCell.numeric ? "left" : "right"}
+                  padding={headCell.disablePadding ? "none" : null}
+                  sortDirection={orderBy === headCell.id ? order : false}
+              >
+                <TableSortLabel
+                    active={orderBy === headCell.id}
+                    direction={order}
+                    onClick={createSortHandler(headCell.id)}
+                    style={{
+                      whiteSpace: "nowrap",
+                      textTransform: "uppercase",
+                      fontSize: "0.85rem",
+                    }}
+                >
+                  <Typography uppercase color="text" variant={"body2"} colorBrightness="hint">{headCell.label}</Typography>
+                  {orderBy === headCell.id ? (
+                      <span className={classes.visuallyHidden}>
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
+                </span>
+                  ) : null}
+                </TableSortLabel>
+              </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+  );
+}
+
+EnhancedTableHead.propTypes = {
+  classes: PropTypes.object.isRequired,
+  numSelected: PropTypes.number.isRequired,
+  onRequestSort: PropTypes.func.isRequired,
+  onSelectAllClick: PropTypes.func.isRequired,
+  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
+  orderBy: PropTypes.string.isRequired,
+  rowCount: PropTypes.number.isRequired
+};
+
+const useToolbarStyles = makeStyles(theme => ({
+  highlight:
+      theme.palette.type === "light"
+          ? {
+            color: theme.palette.secondary.main,
+            backgroundColor: lighten(theme.palette.secondary.light, 0.85)
+          }
+          : {
+            color: theme.palette.text.primary,
+            backgroundColor: theme.palette.secondary.dark
+          },
+  title: {
+    flex: "1 1 100%"
+  }
+}));
+
+const EnhancedTableToolbar = props => {
+  const classes = useToolbarStyles();
+  const { numSelected } = props;
+
+  return (
+      <Toolbar
+        className={cn(classes.root, {
+          [classes.highlight]: numSelected > 0
+        })}
+      >
+        {numSelected > 0 ? (
+          <Typography
+            className={classes.title}
+            color="inherit"
+            variant="subtitle1"
+          >
+            {numSelected} selected
+          </Typography>
+        ) : (
+            <Box display={"flex"} className={classes.title}>
+              <Typography
+                variant="h6"
+                color="text"
+                colorBrightness={"secondary"}
+                id="tableTitle"
+                style={{ display: "flex" }}
+                block
+              >
+                Your connections
+                <Box display="flex" alignSelf={"flex-end"} ml={1}>
+                  <Typography
+                    color="text"
+                    colorBrightness={"hint"}
+                    variant={"caption"}
+                  >
+                    2 total
+                  </Typography>
+                </Box>
+              </Typography>
+            </Box>
+        )}
+
+        {numSelected > 0 ? (
+            <Tooltip title="Delete">
+              <IconButton aria-label="delete">
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+        ) : (
+            <Tooltip title="Filter list">
+              <IconButton aria-label="filter list">
+                <FilterListIcon />
+              </IconButton>
+            </Tooltip>
+        )}
+      </Toolbar>
+  );
+};
+
+EnhancedTableToolbar.propTypes = {
+  numSelected: PropTypes.number.isRequired
+};
+
+function ConnectNetwork() {
+  let classes = useStyles();
+  let theme = useTheme();
+
+  // local
+  let [mainChartState, setMainChartState] = useState("monthly");
+
+  // Recent Orders table
+
+  const [order, setOrder] = React.useState("asc");
+  const [orderBy, setOrderBy] = React.useState("price");
+  const [selected, setSelected] = React.useState([]);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [actionsButtonRefID, setActionsButtonRefID] =  React.useState(null);
+  const [isActionsMenu, setActionsMenu] = React.useState(false)
+
+
+  const handleRequestSort = (event, property) => {
+    const isDesc = orderBy === property && order === "desc";
+    setOrder(isDesc ? "asc" : "desc");
+    setOrderBy(property);
+  };
+
+  const handleSelectAllClick = event => {
+    if (event.target.checked) {
+      const newSelecteds = rows.map(n => n.id);
+      setSelected(newSelecteds);
+      return;
+    }
+    setSelected([]);
+  };
+
+  const handleClick = (event, name) => {
+    const selectedIndex = selected.indexOf(name);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, name);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+          selected.slice(0, selectedIndex),
+          selected.slice(selectedIndex + 1)
+      );
     }
 
-    const regex = /(?:\.([^.]+))?$/;
-    return regex.exec(filename)[1];
-  }
-
-  const uploadToServer = async (file, path, filename) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('filename', filename);
-    const uri = `/file/upload/${path}`;
-    await Axios.post(uri, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-
-    const privateUrl = `${path}/${filename}`;
-
-    return `${config.baseURLApi}/file/download?privateUrl=${privateUrl}`;
+    setSelected(newSelected);
   };
 
-  const handleFile = async (event) => {
-    const file = event.target.files[0];
-
-    const extension = extractExtensionFrom(file.name);
-    const id = uuid();
-    const filename = `${id}.${extension}`;
-    const privateUrl = `users/avatar/${filename}`;
-
-    const publicUrl = await uploadToServer(file, 'users/avatar', filename);
-    let avatarObj = {
-      id: id,
-      name: file.name,
-      sizeInBytes: file.size,
-      privateUrl,
-      publicUrl,
-      new: true,
-    };
-
-    setData({
-      ...data,
-      avatar: [...data.avatar, avatarObj],
-    });
-
-    return null;
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
   };
-  const history = useHistory();
 
-  useEffect(() => {
-    actions.doFind(sessionStorage.getItem('user_id'))(managementDispatch);
-    // eslint-disable-next-line  react-hooks/exhaustive-deps
-  }, []);
+  const handleChangeRowsPerPage = event => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
-  useEffect(() => {
-    if (location.pathname.includes('edit')) {
-      setEditable(true);
+  const isSelected = name => selected.indexOf(name) !== -1;
+
+  const emptyRows =
+      rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
+  const randomData = React.useMemo(() => getRandomData(10), []);
+
+  const mainChartData = React.useMemo(() => {
+    let resultArray = [];
+    let tablet = getRandomData(31, 3500, 6500, 7500, 1000);
+    let desktop = getRandomData(31, 1500, 7500, 7500, 1500);
+    let mobile = getRandomData(31, 1500, 7500, 7500, 1500);
+
+    for (let i = 0; i < tablet.length; i++) {
+      resultArray.push({
+        tablet: tablet[i].value,
+        desktop: desktop[i].value,
+        mobile: mobile[i].value
+      });
     }
-  }, [location.pathname]);
 
-  useEffect(() => {
-    setData(managementValue.currentUser);
-  }, [managementDispatch, managementValue, id]);
-
-  const deleteOneImage = (id) => {
-    setData({
-      ...data,
-      avatar: data.avatar.filter((avatar) => avatar.id !== id),
-    });
-  };
-
-  function handleSubmit() {
-    actions.doUpdate(
-      sessionStorage.getItem('user_id'),
-      data,
-      history,
-    )(managementDispatch);
-    showSnackbar({ type: 'success', message: 'User Edited' });
-  }
-
-  function handleUpdatePassword() {
-    actions.doChangePassword(password)(managementDispatch);
-  }
-
-  function handleChangePassword(e) {
-    setPassword({
-      ...password,
-      [e.target.name]: e.target.value,
-    });
-  }
-
-  function handleChange(e) {
-    setData({
-      ...data,
-      [e.target.name]: e.target.value,
-    });
-  }
+    return resultArray;
+  }, [mainChartState]); // eslint-disable-line
 
   return (
     <Grid container spacing={3}>
-      <Grid item xs={12}>
-        <Widget>
-          <Box display={'flex'} justifyContent={'center'}>
-            <Tabs
-              indicatorColor='primary'
-              textColor='primary'
-              value={tab}
-              onChange={handleChangeTab}
-              aria-label='full width tabs example'
-            >
-              <Tab
-                label='ACCOUNT'
-                icon={<PersonOutlineIcon />}
-                classes={{ wrapper: classes.icon }}
-              />
-              <Tab
-                label='PROFILE'
-                icon={<PersonOutlineIcon />}
-                classes={{ wrapper: classes.icon }}
-              />
-              <Tab
-                label='CHANGE PASSWORD'
-                icon={<LockIcon />}
-                classes={{ wrapper: classes.icon }}
-              />
-            </Tabs>
-          </Box>
-        </Widget>
+ 
+      <Grid item lg={3} sm={6} xs={12}>
+        
       </Grid>
-      <Grid item xs={12}>
-        <Widget>
-          <Grid item justifyContent={'center'} container>
-            <Box display={'flex'} flexDirection={'column'} width={600}>
-              {tab === 0 ? (
-                <>
-                  <Typography
-                    variant={'h5'}
-                    weight={'medium'}
-                    style={{ marginBottom: 30 }}
-                  >
-                    Account
-                  </Typography>
-                  <TextField
-                    label='First Name'
-                    value={data?.firstName || ''}
-                    onChange={handleChange}
-                    name='firstName'
-                    variant='outlined'
-                    style={{ marginBottom: 35 }}
-                  />
-                  <TextField
-                    label='Email'
-                    value={data?.email || ''}
-                    name='email'
-                    onChange={handleChange}
-                    variant='outlined'
-                    style={{ marginBottom: 35 }}
-                    disabled
-                  />
-                  <FormControl variant='outlined' style={{ marginBottom: 35 }}>
-                    <InputLabel id='demo-simple-select-outlined-label'>
-                      Role
-                    </InputLabel>
-                    <Select
-                      labelId='demo-simple-select-outlined-label'
-                      label='Role'
-                      id='demo-simple-select-outlined'
-                      defaultValue='user'
-                      value={data?.role || ''}
-                      name='email'
-                      onChange={handleChange}
-                    >
-                      <MenuItem value={'admin'}>Admin</MenuItem>
-                      <MenuItem value={'user'}>User</MenuItem>
-                    </Select>
-                  </FormControl>
-                </>
-              ) : tab === 1 ? (
-                <>
-                  <Typography
-                    variant={'h5'}
-                    weight={'medium'}
-                    style={{ marginBottom: 35 }}
-                  >
-                    Personal Information
-                  </Typography>
-                  <Typography weight={'medium'}>Photo:</Typography>
-                  <div className={classes.galleryWrap}>
-                    {data && data.avatar && data.avatar.length !== 0
-                      ? data.avatar.map((avatar, idx) => (
-                          <div className={classes.imgWrap}>
-                            <span
-                              className={classes.deleteImageX}
-                              onClick={() => deleteOneImage(avatar.id)}
-                            ></span>
-                            <img
-                              src={avatar.publicUrl}
-                              alt='avatar'
-                              height={'100%'}
-                            />
-                          </div>
-                        ))
-                      : null}
-                  </div>
-                  <label
-                    className={classes.uploadLabel}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    {'Upload an image'}
-                    <input
-                      style={{ display: 'none' }}
-                      accept='image/*'
-                      type='file'
-                      ref={fileInput}
-                      onChange={handleFile}
-                    />
-                  </label>
 
-                  <Typography size={'sm'} style={{ marginBottom: 35 }}>
-                    .PNG, .JPG, .JPEG
-                  </Typography>
-                  <TextField
-                    label='Name'
-                    variant='outlined'
-                    defaultValue='Name'
-                    value={data && data.firstName}
-                    name='firstName'
-                    onChange={handleChange}
-                    style={{ marginBottom: 35 }}
-                  />
-                  <TextField
-                    label='Last Name'
-                    variant='outlined'
-                    defaultValue={'Last Name'}
-                    value={data && data.lastName}
-                    name='lastName'
-                    onChange={handleChange}
-                    style={{ marginBottom: 35 }}
-                  />
-                  <TextField
-                    label='Phone'
-                    variant='outlined'
-                    style={{ marginBottom: 35 }}
-                    defaultValue={'1-555-666-7070'}
-                    value={data && data.phone}
-                    name='phone'
-                    onChange={handleChange}
-                  />
-                  <TextField
-                    label='Email'
-                    variant='outlined'
-                    style={{ marginBottom: 35 }}
-                    type={'email'}
-                    defaultValue={'Jane@gmail.com'}
-                    value={data && data.email}
-                    name='email'
-                    onChange={handleChange}
-                    disabled
-                  />
-                </>
-              ) : tab === 2 ? (
-                <>
-                  <Typography
-                    variant={'h5'}
-                    weight={'medium'}
-                    style={{ marginBottom: 35 }}
-                  >
-                    Password
-                  </Typography>
-                  <TextField
-                    label='Current Password'
-                    type='password'
-                    variant='outlined'
-                    style={{ marginBottom: 35 }}
-                    defaultValue={'Current Password'}
-                    value={password.currentPassword || ''}
-                    name='currentPassword'
-                    onChange={handleChangePassword}
-                  />
-                  <TextField
-                    label='New Password'
-                    type='password'
-                    variant='outlined'
-                    style={{ marginBottom: 35 }}
-                    defaultValue={'New Password'}
-                    value={password.newPassword || ''}
-                    name='newPassword'
-                    onChange={handleChangePassword}
-                  />
-                  <TextField
-                    label='Confirm Password'
-                    type='password'
-                    variant='outlined'
-                    style={{ marginBottom: 35 }}
-                    defaultValue={'Verify Password'}
-                    value={password.confirmPassword || ''}
-                    name='confirmPassword'
-                    onChange={handleChangePassword}
-                  />
-                </>
-              ) : (
-                <>
-                  <Typography
-                    variant={'h5'}
-                    weight={'medium'}
-                    style={{ marginBottom: 35 }}
-                  >
-                    Settings
-                  </Typography>
-                  <FormControl variant='outlined' style={{ marginBottom: 35 }}>
-                    <Select
-                      labelId='demo-simple-select-outlined-label'
-                      id='demo-simple-select-outlined'
-                      value={10}
-                    >
-                      <MenuItem value={10}>English</MenuItem>
-                      <MenuItem value={20}>Admin</MenuItem>
-                      <MenuItem value={30}>Super Admin</MenuItem>
-                    </Select>
-                  </FormControl>
-                  <Typography weight={'bold'}>Communication:</Typography>
-                  <Box display={'flex'}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox checked name='checkedB' color='secondary' />
-                      }
-                      label='Email'
-                    />
-                    <FormControlLabel
-                      control={<Checkbox name='checkedB' color='secondary' />}
-                      label='Messages'
-                    />
-                    <FormControlLabel
-                      control={<Checkbox name='checkedB' color='secondary' />}
-                      label='Phone'
-                    />
-                  </Box>
-                  <Box display={'flex'} mt={2} alignItems={'center'}>
-                    <Typography weight={'medium'}>
-                      Email notification
-                    </Typography>
-                    <Switch color={'primary'} checked />
-                  </Box>
-                  <Box display={'flex'} mt={2} mb={2} alignItems={'center'}>
-                    <Typography weight={'medium'}>
-                      Send copy to personal email
-                    </Typography>
-                    <Switch color={'primary'} />
-                  </Box>
-                </>
-              )}
-              {editable && (
-                <Box display={'flex'} justifyContent={'space-between'}>
-                  {tab !== 2 ? (
-                    <>
-                      <Button variant={'outlined'} color={'primary'}>
-                        Reset
-                      </Button>
-                      <Button variant={'contained'} onClick={handleSubmit}>
-                        Save
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <Button variant={'outlined'} color={'primary'}>
-                        Reset
-                      </Button>
-                      <Button
-                        variant={'contained'}
-                        onClick={handleUpdatePassword}
+      <Grid item xs={12}>
+        <Widget noBodyPadding bodyClass={classes.tableWidget}>
+          <EnhancedTableToolbar numSelected={selected.length} />
+          <div className={classes.tableWrapper}>
+            <Table
+                className={classes.table}
+                aria-labelledby="tableTitle"
+                aria-label="recent orders"
+            >
+              <EnhancedTableHead
+                  classes={classes}
+                  numSelected={selected.length}
+                  order={order}
+                  orderBy={orderBy}
+                  onSelectAllClick={handleSelectAllClick}
+                  onRequestSort={handleRequestSort}
+                  rowCount={rows.length}
+              />
+              <TableBody>
+                {stableSort(rows, getSorting(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row, index) => {
+                    const isItemSelected = isSelected(row.id);
+                    const labelId = `orders-table-checkbox-${index}`;
+
+                    return (
+                      <TableRow
+                        hover
+                        onClick={event => handleClick(event, row.id)}
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={row.id}
+                        selected={isItemSelected}
                       >
-                        Save Password
-                      </Button>
-                    </>
-                  )}
-                </Box>
-              )}
-            </Box>
-          </Grid>
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                              checked={isItemSelected}
+                              inputProps={{ "aria-labelledby": labelId }}
+                          />
+                        </TableCell>
+                        {/* <TableCell
+                            component="th"
+                            id={labelId}
+                            scope="row"
+                            padding="none"
+                        >
+                          {row.orderId}
+                        </TableCell> */}
+                        <TableCell>
+                          <Box
+                              display={"flex"}
+                              flexWrap={"nowrap"}
+                              alignItems={"center"}
+                          >
+                            <Avatar
+                                alt={row.customer}
+                                color={row.color}
+                                style={{ marginRight: 8 }}
+                            >
+                              {row.customer[0]}
+                            </Avatar>
+                            <Typography style={{ whiteSpace: "nowrap" }}>
+                              {row.customer}
+                            </Typography>
+                          </Box>
+                        </TableCell>
+                        <TableCell>{row.office}</TableCell>
+                        <TableCell>{row.weight}</TableCell>
+                        <TableCell>{row.price}</TableCell>
+                        <TableCell>{row.purDate}</TableCell>
+                        <TableCell>{row.delDate}</TableCell>
+                        <TableCell>
+                        <IconButton aria-label="call">
+                            <PhoneIcon />
+                          </IconButton>
+                          <IconButton aria-label="chat">
+                            <ChatIcon />
+                          </IconButton>
+                        </TableCell>
+                       
+                        <TableCell align={"center"}>
+                          <IconButton
+                              className={classes.actionsIcon}
+                              aria-owns="actions-menu"
+                              aria-haspopup="true"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setActionsMenu(true);
+                                setActionsButtonRefID(e.currentTarget)
+                              }}
+                              ref={setActionsButtonRefID}
+                          >
+                            <MoreIcon />
+                          </IconButton>
+
+                          <Menu
+                            id="actions-menu"
+                            open={isActionsMenu}
+                            anchorEl={actionsButtonRefID}
+                            onClose={() => setActionsMenu(false)}
+                            disableAutoFocusItem
+                          >
+                            <MenuItem>
+                              <Typography>Edit</Typography>
+                            </MenuItem>
+                            <MenuItem>
+                              <Typography>Delete</Typography>
+                            </MenuItem>
+                          </Menu>
+
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 53 * emptyRows }}>
+                      <TableCell colSpan={6} />
+                    </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            backIconButtonProps={{
+              "aria-label": "previous page"
+            }}
+            nextIconButtonProps={{
+              "aria-label": "next page"
+            }}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </Widget>
       </Grid>
     </Grid>
   );
-};
+}
+
+// #######################################################################
+
+function getRandomData(length, min, max, multiplier = 10, maxDiff = 10) {
+  let array = new Array(length).fill();
+  let lastValue;
+
+  return array.map((item, index) => {
+    let randomValue = Math.floor(Math.random() * multiplier + 1);
+
+    while (
+        randomValue <= min ||
+        randomValue >= max ||
+        (lastValue && randomValue - lastValue > maxDiff)
+        ) {
+      randomValue = Math.floor(Math.random() * multiplier + 1);
+    }
+
+    lastValue = randomValue;
+
+    return { value: randomValue };
+  });
+}
 
 export default ConnectNetwork;
