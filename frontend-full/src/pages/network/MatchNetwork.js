@@ -1,55 +1,27 @@
-import React, { useState } from "react";
-import Button from '@mui/material/Button';
 import {
-  Grid,
-  LinearProgress,
-  Select,
-  OutlinedInput,
-  MenuItem,
-  Box,
-  Table,
-  TableBody,
-  TableRow,
-  TableCell,
-  Checkbox,
-  TablePagination,
-  TableHead,
-  TableSortLabel,
-  Toolbar,
-  IconButton, Menu
+  Delete as DeleteIcon,
+  FilterList as FilterListIcon
+} from "@mui/icons-material";
+import {
+  Box, Checkbox, Grid, IconButton, TableCell, TableHead, TableRow, TableSortLabel,
+  Toolbar
 } from "@mui/material";
-import { useTheme, makeStyles } from '@mui/styles';
+import Button from '@mui/material/Button';
+import { lighten } from '@mui/material/styles';
+import { makeStyles, useTheme } from '@mui/styles';
+import cn from "classnames";
+import PropTypes from "prop-types";
+import React, { useState } from "react";
 import {
-  ResponsiveContainer,
-  ComposedChart,
-  AreaChart,
-  Line,
-  Area,
-  PieChart,
-  Pie,
-  Cell,
-  YAxis,
-  XAxis,
-  Tooltip
+  Cell, Pie, PieChart, ResponsiveContainer, Tooltip
 } from "recharts";
-
+import Widget from "../../components/Widget/Widget";
+import { Typography } from "../../components/Wrappers/Wrappers";
 // styles
 import useStyles from "./styles";
 
-// components
-import mock from "./mock";
-import Widget from "../../components/Widget/Widget";
-import { Chip, Typography, Avatar } from "../../components/Wrappers/Wrappers";
-import Dot from "../../components/Sidebar/components/Dot";
-import BigStat from "./components/BigStat/BigStat";
-import {
-  Delete as DeleteIcon,
-  FilterList as FilterListIcon, MoreVert as MoreIcon,
-} from "@mui/icons-material";
-import PropTypes from "prop-types";
 
-import { lighten } from '@mui/material/styles';
-import cn from "classnames";
+
 
 
 const PieChartData = [

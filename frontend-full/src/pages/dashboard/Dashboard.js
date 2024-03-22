@@ -51,10 +51,10 @@ import { lighten } from '@mui/material/styles';
 import cn from "classnames";
 
 const PieChartData = [
-  { name: "Group A", value: 400, color: "primary" },
-  { name: "Group B", value: 300, color: "secondary" },
-  { name: "Group C", value: 300, color: "warning" },
-  { name: "Group D", value: 200, color: "success" }
+  { name: "Sponsor", value: 400, color: "primary" },
+  { name: "University", value: 300, color: "secondary" },
+  { name: "Private", value: 300, color: "warning" },
+  { name: "Flix-Assist", value: 200, color: "success" }
 ];
 
 const TicketChartData = [
@@ -84,77 +84,71 @@ const TicketChartData = [
 
 const rows = [
   {
-    id: 1,
-    orderId: Math.floor(Math.random(0) * 3000000),
-    customer: "Victoria Cantrel",
-    office: "Croatia",
-    weight: "1.4 kg",
-    price: 23.87,
-    purDate: "12 Jan 2019",
-    delDate: "-",
-    status: "Pending",
-    color: "primary"
-  },
-  {
     id: 2,
-    orderId: Math.floor(Math.random(0) * 3000000),
-    customer: "Cherokee Ware",
-    office: "Belgium",
-    weight: "0.8 kg",
-    price: 987,
-    purDate: "11 Jan 2019",
-    delDate: "14 Jan 2019",
-    status: "Delivered",
+    startup: "DroneAI",
+    location: "France",
+    industry: "Defence",
+    impact: "Security",
+    lastcheckin: "1 Sep 2019",
+    successprob: "0.76",
+    status: "Check-In",
     color: "success"
   },
   {
     id: 3,
-    orderId: Math.floor(Math.random(0) * 3000000),
-    customer: "Constance Clayton",
-    office: "Peru",
-    weight: "105 kg",
-    price: 1.876,
-    purDate: "09 Jan 2019",
-    delDate: "-",
-    status: "Canceled",
-    color: "secondary"
+    startup: "Sticker",
+    location: "Germany",
+    industry: "Robotics Tech",
+    impact: "Sustainibility",
+    lastcheckin: "12 Mar 2023",
+    successprob: "0.57",
+    status: "Network",
+    color: "warning"
   },
   {
     id: 4,
-    orderId: Math.floor(Math.random(0) * 3000000),
-    customer: "Cherokee Ware",
-    office: "Belgium",
-    weight: "0.8 kg",
-    price: 987,
-    purDate: "11 Jan 2019",
-    delDate: "14 Jan 2019",
-    status: "Delivered",
-    color: "success"
+    startup: "Chef++",
+    location: "Germany",
+    industry: "Food Tech",
+    impact: "Circular Economy",
+    lastcheckin: "23 Jun 2022",
+    successprob: "0.83",
+    status: "Pitch call",
+    color: "primary"
   },
   {
     id: 5,
-    orderId: Math.floor(Math.random(0) * 3000000),
-    customer: "Constance Clayton",
-    office: "Peru",
-    weight: "105 kg",
-    price: 1.876,
-    purDate: "06 Jan 2019",
-    delDate: "19 Jan 2019",
-    status: "In a process",
-    color: "warning"
+    startup: "Remembro",
+    location: "Germany",
+    industry: "AI Tech",
+    impact: "Social",
+    lastcheckin: "12 Jan 2019",
+    successprob: "0.66",
+    status: "Pitch call",
+    color: "primary"
   },
   {
     id: 6,
-    orderId: Math.floor(Math.random() * 3000000),
-    customer: "Constance Clayton",
-    office: "Peru",
-    weight: "105 kg",
-    price: 1.876,
-    purDate: "06 Jan 2019",
-    delDate: "19 Jan 2019",
-    status: "In a process",
-    color: "warning"
-  }
+    startup: "Purple",
+    location: "Germany",
+    industry: "Agri Tech",
+    impact: "Sustainibility",
+    lastcheckin: "12 Jan 2022",
+    successprob: "0.66",
+    status: "Info session",
+    color: "secondary"
+  },
+  {
+    id: 1,
+    startup: "EcoDyne",
+    location: "India",
+    industry: "Green Tech",
+    impact: "Social",
+    lastcheckin: "12 Jan 2019",
+    successprob: "0.66",
+    status: "Picth call",
+    color: "primary"
+  },
 ];
 
 function desc(a, b, orderBy) {
@@ -184,30 +178,30 @@ function getSorting(order, orderBy) {
 }
 
 const headCells = [
+  // {
+  //   id: "id",
+  //   numeric: true,
+  //   disablePadding: true,
+  //   label: "Order ID"
+  // },
+  { id: "startup", numeric: false, disablePadding: false, label: "StartUP" },
+  { id: "location", numeric: false, disablePadding: false, label: "Location" },
+  { id: "industry", numeric: false, disablePadding: false, label: "Industry" },
+  { id: "impact", numeric: false, disablePadding: false, label: "Impact" },
   {
-    id: "id",
-    numeric: true,
-    disablePadding: true,
-    label: "Order ID"
-  },
-  { id: "customer", numeric: true, disablePadding: false, label: "Customer" },
-  { id: "office", numeric: true, disablePadding: false, label: "Office" },
-  { id: "weight", numeric: true, disablePadding: false, label: "Netto Weight" },
-  { id: "price", numeric: true, disablePadding: false, label: "Price" },
-  {
-    id: "purchase-date",
-    numeric: true,
+    id: "lastcheckin",
+    numeric: false,
     disablePadding: false,
-    label: "Date of purchase"
+    label: "LAST Check-in"
   },
   {
-    id: "delivery-date",
-    numeric: true,
+    id: "successprob",
+    numeric: false,
     disablePadding: false,
-    label: "Date of Delivery"
+    label: "Succes Probability"
   },
-  { id: "status", numeric: true, disablePadding: false, label: "Status" },
-  { id: "actions", numeric: true, disablePadding: false, label: "Actions" }
+  { id: "status", numeric: false, disablePadding: false, label: "Status" },
+  { id: "actions", numeric: false, disablePadding: false, label: "Actions" }
 ];
 
 function EnhancedTableHead(props) {
@@ -238,7 +232,7 @@ function EnhancedTableHead(props) {
           {headCells.map(headCell => (
               <TableCell
                   key={headCell.id}
-                  align={headCell.numeric ? "left" : "right"}
+                  align={ "center"}
                   padding={headCell.disablePadding ? "none" : null}
                   sortDirection={orderBy === headCell.id ? order : false}
               >
@@ -320,14 +314,14 @@ const EnhancedTableToolbar = props => {
                 style={{ display: "flex" }}
                 block
               >
-                Recent Orders
+                StartUp Progress
                 <Box display="flex" alignSelf={"flex-end"} ml={1}>
                   <Typography
                     color="text"
                     colorBrightness={"hint"}
                     variant={"caption"}
                   >
-                    1.340 total
+                    40 total
                   </Typography>
                 </Box>
               </Typography>
@@ -445,7 +439,7 @@ function Dashboard() {
     <Grid container spacing={3}>
       <Grid item lg={3} sm={6} xs={12}>
         <Widget
-            title="Support Tracker"
+            title="Info Updates"
             bodyClass={classes.fullHeightBody}
             className={classes.card}
         >
@@ -521,7 +515,7 @@ function Dashboard() {
                   style={{ marginRight: 5 }}
                   noWrap
               >
-                New Tickets
+                7 days
               </Typography>
               <Box display="flex" alignItems="center" justifyContent={"center"}>
                 <Typography
@@ -541,7 +535,7 @@ function Dashboard() {
                   variant={"caption"}
                   style={{ marginRight: 5 }}
               >
-                Open
+                14 Days
               </Typography>
               <Box display="flex" alignItems="center" justifyContent={"center"}>
                 <Typography
@@ -560,7 +554,7 @@ function Dashboard() {
                   colorBrightness={"hint"}
                   variant={"caption"}
               >
-                Completed
+                1 Month
               </Typography>
               <Box display="flex" alignItems="center" justifyContent={"center"}>
                 <Typography
@@ -578,7 +572,7 @@ function Dashboard() {
       </Grid>
       <Grid item lg={3} sm={6} xs={12}>
         <Widget
-            title="Revenue Breakdown"
+            title="Budget Status"
             className={classes.card}
             bodyClass={classes.alignStandaloneElement}
         >
@@ -644,7 +638,7 @@ function Dashboard() {
       </Grid>
       <Grid item lg={3} sm={6} xs={12}>
         <Widget
-            title="App Performance"
+            title="Fundraising in 2024"
             className={classes.card}
             bodyClass={classes.fullHeightBody}
         >
@@ -657,7 +651,7 @@ function Dashboard() {
                   variant={"body2"}
                   className={classes.legendElementText}
               >
-                Integration
+                Juffy
               </Typography>
             </div>
             <div className={classes.legendElement}>
@@ -668,7 +662,7 @@ function Dashboard() {
                   variant={"body2"}
                   className={classes.legendElementText}
               >
-                SDK
+                Devom
               </Typography>
             </div>
           </div>
@@ -678,7 +672,7 @@ function Dashboard() {
                 variant={"body2"}
                 className={classes.progressSectionTitle}
             >
-              Integration
+              1.2M
             </Typography>
             <LinearProgress
               variant="determinate"
@@ -693,7 +687,7 @@ function Dashboard() {
               variant={"body2"}
               className={classes.progressSectionTitle}
             >
-              SDK
+              6M
             </Typography>
             <LinearProgress
               variant="determinate"
@@ -706,7 +700,7 @@ function Dashboard() {
       </Grid>
       <Grid item lg={3} sm={6} xs={12}>
         <Widget
-            title="Server Overview"
+            title="Latest Activity"
             className={classes.card}
             bodyClass={classes.fullHeightBody}
         >
@@ -718,7 +712,7 @@ function Dashboard() {
                 weight={"medium"}
                 className={classes.serverOverviewElementText}
             >
-              60% / 37°С / 3.3 Ghz
+              Info updates
             </Typography>
             <div className={classes.serverOverviewElementChartWrapper}>
               <ResponsiveContainer height={50} width="99%">
@@ -743,7 +737,7 @@ function Dashboard() {
                 variant={"body2"}
                 className={classes.serverOverviewElementText}
             >
-              54% / 31°С / 3.3 Ghz
+              Matches
             </Typography>
             <div className={classes.serverOverviewElementChartWrapper}>
               <ResponsiveContainer height={50} width="99%">
@@ -768,7 +762,7 @@ function Dashboard() {
                 variant={"body2"}
                 className={classes.serverOverviewElementText}
             >
-              57% / 21°С / 3.3 Ghz
+              Follow-ups
             </Typography>
             <div className={classes.serverOverviewElementChartWrapper}>
               <ResponsiveContainer height={50} width="99%">
@@ -798,19 +792,19 @@ function Dashboard() {
                   weight={"medium"}
                   colorBrightness="secondary"
                 >
-                  Daily Line Chart
+                  User Engagement
                 </Typography>
                 <div className={classes.mainChartHeaderLabels}>
                   <div className={classes.mainChartHeaderLabel}>
                     <Dot color="warning" />
                     <Typography className={classes.mainChartLegendElement}>
-                      Tablet
+                      Partner
                     </Typography>
                   </div>
                   <div className={classes.mainChartHeaderLabel}>
                     <Dot color="primary" />
                     <Typography className={classes.mainChartLegendElement}>
-                      Mobile
+                      Startupper
                     </Typography>
                   </div>
                   <div className={classes.mainChartHeaderLabel}>
@@ -944,14 +938,14 @@ function Dashboard() {
                               inputProps={{ "aria-labelledby": labelId }}
                           />
                         </TableCell>
-                        <TableCell
+                        {/* <TableCell
                             component="th"
                             id={labelId}
                             scope="row"
                             padding="none"
                         >
                           {row.orderId}
-                        </TableCell>
+                        </TableCell> */}
                         <TableCell>
                           <Box
                               display={"flex"}
@@ -959,22 +953,22 @@ function Dashboard() {
                               alignItems={"center"}
                           >
                             <Avatar
-                                alt={row.customer}
+                                alt={row.startup}
                                 color={row.color}
                                 style={{ marginRight: 8 }}
                             >
-                              {row.customer[0]}
+                              {row.startup[0]}
                             </Avatar>
                             <Typography style={{ whiteSpace: "nowrap" }}>
-                              {row.customer}
+                              {row.startup}
                             </Typography>
                           </Box>
                         </TableCell>
-                        <TableCell>{row.office}</TableCell>
-                        <TableCell>{row.weight}</TableCell>
-                        <TableCell>${row.price}</TableCell>
-                        <TableCell>{row.purDate}</TableCell>
-                        <TableCell>{row.delDate}</TableCell>
+                        <TableCell align={"center"}>{row.location}</TableCell>
+                        <TableCell align={"center"}>{row.industry}</TableCell>
+                        <TableCell align={"center"}>{row.impact}</TableCell>
+                        <TableCell align={"center"}>{row.lastcheckin}</TableCell>
+                        <TableCell align={"center"}>{row.successprob}</TableCell>
                         <TableCell>
                           <Chip label={row.status} color={row.color} />
                         </TableCell>

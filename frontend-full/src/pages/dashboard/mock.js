@@ -27,7 +27,7 @@ export default {
   ],
   bigStat: [
     {
-      product: "Light Blue",
+      product: "New users added",
       total: {
         monthly: 4232,
         weekly: 1465,
@@ -47,7 +47,7 @@ export default {
       }
     },
     {
-      product: "Sing App",
+      product: "Mobilization events",
       total: {
         monthly: 754,
         weekly: 180,
@@ -67,7 +67,7 @@ export default {
       }
     },
     {
-      product: "RNS",
+      product: "Fundraising events",
       total: {
         monthly: 1025,
         weekly: 301,

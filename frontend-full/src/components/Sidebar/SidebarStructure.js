@@ -1,30 +1,10 @@
-import React from 'react';
 import {
-  Home as HomeIcon,
-  FilterNone as UIElementsIcon,
-  BorderAll as TableIcon,
-  QuestionAnswer as SupportIcon,
-  LibraryBooks as LibraryIcon,
-  HelpOutline as FAQIcon,
-  BarChart as ChartIcon,
-  Map as MapIcon,
-  Apps as CoreIcon,
-  Description as DescriptionIcon,
-  ShoppingCart as ShoppingCartIcon,
-  StarBorder as ExtraIcon,
-  AddCircle as AddSectionIcon,
-  FolderOpen as FolderIcon,
-  Description as DocumentationIcon,
-  Person as PersonIcon,
-  AccountCircle as ProfileIcon
+  AccountCircle as ProfileIcon, Home as HomeIcon, Person as PersonIcon
 } from '@mui/icons-material';
 import AdjustIcon from '@mui/icons-material/Adjust';
 import HubIcon from '@mui/icons-material/Hub';
-import ChatIcon from '@mui/icons-material/Chat';
-import ViewCompactRoundedIcon from '@mui/icons-material/ViewCompactRounded';
+import React from 'react';
 
-// components
-import Dot from './components/Dot';
 
 const structure = [
   { id: 100, label: 'Profile', link: '/app/profile', icon: <ProfileIcon /> },
