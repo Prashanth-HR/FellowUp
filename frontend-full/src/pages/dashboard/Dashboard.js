@@ -86,7 +86,7 @@ const rows = [
   {
     id: 2,
     startup: "DroneAI",
-    location: "France",
+    location: "India",
     industry: "Defence",
     impact: "Security",
     lastcheckin: "1 Sep 2019",
@@ -97,7 +97,7 @@ const rows = [
   {
     id: 3,
     startup: "Sticker",
-    location: "Germany",
+    location: "China",
     industry: "Robotics Tech",
     impact: "Sustainibility",
     lastcheckin: "12 Mar 2023",
@@ -108,7 +108,7 @@ const rows = [
   {
     id: 4,
     startup: "Chef++",
-    location: "Germany",
+    location: "Ghana",
     industry: "Food Tech",
     impact: "Circular Economy",
     lastcheckin: "23 Jun 2022",
@@ -119,7 +119,7 @@ const rows = [
   {
     id: 5,
     startup: "Remembro",
-    location: "Germany",
+    location: "Pakistan",
     industry: "AI Tech",
     impact: "Social",
     lastcheckin: "12 Jan 2019",
@@ -130,7 +130,7 @@ const rows = [
   {
     id: 6,
     startup: "Purple",
-    location: "Germany",
+    location: "Cuba",
     industry: "Agri Tech",
     impact: "Sustainibility",
     lastcheckin: "12 Jan 2022",
@@ -198,7 +198,7 @@ const headCells = [
     id: "successprob",
     numeric: false,
     disablePadding: false,
-    label: "Succes Probability"
+    label: "Success Probability"
   },
   { id: "status", numeric: false, disablePadding: false, label: "Status" },
   { id: "actions", numeric: false, disablePadding: false, label: "Actions" }

@@ -24,6 +24,7 @@ import useStyles from "./styles";
 
 
 
+
 const PieChartData = [
   { name: "Group A", value: 400, color: "primary" },
   { name: "Group B", value: 300, color: "secondary" },
@@ -379,25 +380,44 @@ function MatchNetwork() {
 
 
   
-  const [isClicked, setIsClicked] = useState(false);
-  const [buttonText, setButtonText] = useState("Match!");
+  // const [isClicked, setIsClicked] = useState(false);
+  // const [buttonText, setButtonText] = useState("Match!");
   
-    const handleClick1 = () => {
-      setIsClicked(!isClicked);
-      setButtonText("Unmatch");
-    }
-    const handleClick2 = () => {
-      setIsClicked(!isClicked);
-      setButtonText("Unmatch");
-    }
-    const handleClic = () => {
-      setIsClicked(!isClicked);
-      setButtonText("Unmatch");
-    }
+  // const initialButtonText = "Match!"; // Initial text for all buttons
+  // const [buttonTexts, setButtonTexts] = useState(new Array(4).fill(initialButtonText));
+
+  // const handleClick = (index) => {
+  //   // Change text of only the clicked button by updating the state at the specific index
+  //   setButtonTexts(buttonTexts.map((text, i) => i === index ? "Match!" : text));
+  // };
+
+  const CustomButton = ({ buttonName }) => {
+    const [isClicked, setIsClicked] = useState(false);
+    // const [iconIndex, setIconIndex] = useState(0); // Start with the first icon
+  
     const handleClick = () => {
-      setIsClicked(!isClicked);
-      setButtonText("Unmatch");
-    }
+      setIsClicked(true); // Set the button as clicked
+      // Set a new random icon index
+      // setIconIndex(Math.floor(Math.random() * icons.length));
+    };
+  
+    // Define styles based on the isClicked state
+    const buttonStyles = {
+      backgroundColor: isClicked ? 'green' : 'blue',
+      color: isClicked ? 'white' : 'white'
+    };
+  
+    return (
+      <Button
+        variant="outlined"
+        style={buttonStyles}
+        onClick={handleClick}
+        // startIcon={icons[iconIndex]}
+      >
+        {buttonName}
+      </Button>
+    );
+  };
 
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -516,7 +536,7 @@ function MatchNetwork() {
                 }}
             >
               
-              <Button
+              {/* <Button
               variant="contained"
               sx={{
                 backgroundColor: isClicked ? 'green' : 'blue',
@@ -529,7 +549,10 @@ function MatchNetwork() {
               >
                 
                 {buttonText}
-              </Button> 
+              </Button>  */}
+              <CustomButton 
+              variant="contained" 
+              buttonName="Match!" />
             </Grid>
             
           </Grid>
@@ -692,7 +715,7 @@ function MatchNetwork() {
                   display: "flex"
                 }}
             >
-              <Button
+              {/* <Button
               variant="contained"
               sx={{
                 backgroundColor: isClicked ? 'green' : 'blue',
@@ -705,7 +728,9 @@ function MatchNetwork() {
               >
                 
                 {buttonText}
-              </Button> 
+              </Button>  */}
+              <CustomButton buttonName="Match!" />
+              {/* You can use more CustomButton instances here */}
             </Grid>
           </Grid>
           {/* <Grid
@@ -927,7 +952,7 @@ function MatchNetwork() {
                   display: "flex"
                 }}
             >
-              <Button
+              {/* <Button
               variant="contained"
               sx={{
                 backgroundColor: isClicked ? 'green' : 'blue',
@@ -940,7 +965,8 @@ function MatchNetwork() {
               >
                 
                 {buttonText}
-              </Button> 
+              </Button>  */}
+              <CustomButton buttonName="Match!" />
             </Grid>
           </Grid>
           {/* <Grid
@@ -1100,7 +1126,7 @@ function MatchNetwork() {
                   display: "flex"
                 }}
             >
-            <Button
+            {/* <Button
               sx={{
                 backgroundColor: isClicked ? 'green' : 'blue',
                 color: isClicked ? 'white' : 'white',
@@ -1112,7 +1138,8 @@ function MatchNetwork() {
               >
                 
                 {buttonText}
-              </Button>  
+              </Button>   */}
+              <CustomButton buttonName="Match!" />
             </Grid>
           </Grid>
           {/* <Grid
