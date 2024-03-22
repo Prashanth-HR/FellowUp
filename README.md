@@ -7,7 +7,7 @@ The START Fellowship usecase : https://github.com/START-Hack/Fellowship_STARTHAC
 
 
 # Video of working prototype
-[![Demo Video](https://img.youtube.com/vi/xkjCCDVFNGI/0.jpg)]( https://www.youtube.com/watch?v=xkjCCDVFNGI)
+[![Demo Video](https://img.youtube.com/vi/VZBvFfCQiZ0/0.jpg)]( https://www.youtube.com/watch?v=VZBvFfCQiZ0)
 
   - Frontend: [React.js](https://flatlogic.com/templates?framework%5B%5D=react&sort=default)
 
