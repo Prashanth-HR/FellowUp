@@ -84,17 +84,6 @@ const TicketChartData = [
 
 const rows = [
   {
-    id: 1,
-    startup: "EcoDyne",
-    location: "India",
-    industry: "Green Tech",
-    impact: "Social",
-    lastcheckin: "12 Jan 2019",
-    successprob: "0.66",
-    status: "Picth call",
-    color: "primary"
-  },
-  {
     id: 2,
     startup: "DroneAI",
     location: "France",
@@ -149,6 +138,17 @@ const rows = [
     status: "Info session",
     color: "secondary"
   },
+  {
+    id: 1,
+    startup: "EcoDyne",
+    location: "India",
+    industry: "Green Tech",
+    impact: "Social",
+    lastcheckin: "12 Jan 2019",
+    successprob: "0.66",
+    status: "Picth call",
+    color: "primary"
+  },
 ];
 
 function desc(a, b, orderBy) {
@@ -190,18 +190,18 @@ const headCells = [
   { id: "impact", numeric: false, disablePadding: false, label: "Impact" },
   {
     id: "lastcheckin",
-    numeric: true,
+    numeric: false,
     disablePadding: false,
     label: "LAST Check-in"
   },
   {
     id: "successprob",
-    numeric: true,
+    numeric: false,
     disablePadding: false,
     label: "Succes Probability"
   },
-  { id: "status", numeric: true, disablePadding: false, label: "Status" },
-  { id: "actions", numeric: true, disablePadding: false, label: "Actions" }
+  { id: "status", numeric: false, disablePadding: false, label: "Status" },
+  { id: "actions", numeric: false, disablePadding: false, label: "Actions" }
 ];
 
 function EnhancedTableHead(props) {
@@ -232,7 +232,7 @@ function EnhancedTableHead(props) {
           {headCells.map(headCell => (
               <TableCell
                   key={headCell.id}
-                  align={headCell.numeric ? "left" : "right"}
+                  align={ "center"}
                   padding={headCell.disablePadding ? "none" : null}
                   sortDirection={orderBy === headCell.id ? order : false}
               >
@@ -314,14 +314,14 @@ const EnhancedTableToolbar = props => {
                 style={{ display: "flex" }}
                 block
               >
-                Recent Orders
+                StartUp Progress
                 <Box display="flex" alignSelf={"flex-end"} ml={1}>
                   <Typography
                     color="text"
                     colorBrightness={"hint"}
                     variant={"caption"}
                   >
-                    1.340 total
+                    40 total
                   </Typography>
                 </Box>
               </Typography>
@@ -964,11 +964,11 @@ function Dashboard() {
                             </Typography>
                           </Box>
                         </TableCell>
-                        <TableCell>{row.location}</TableCell>
-                        <TableCell>{row.industry}</TableCell>
-                        <TableCell>${row.impact}</TableCell>
-                        <TableCell>{row.lastcheckin}</TableCell>
-                        <TableCell>{row.successprob}</TableCell>
+                        <TableCell align={"center"}>{row.location}</TableCell>
+                        <TableCell align={"center"}>{row.industry}</TableCell>
+                        <TableCell align={"center"}>{row.impact}</TableCell>
+                        <TableCell align={"center"}>{row.lastcheckin}</TableCell>
+                        <TableCell align={"center"}>{row.successprob}</TableCell>
                         <TableCell>
                           <Chip label={row.status} color={row.color} />
                         </TableCell>
